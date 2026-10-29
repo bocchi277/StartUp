@@ -1,0 +1,25 @@
+import { NextResponse, type NextRequest } from "next/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
+
+// Handles Google sign-in (?code=) and email confirmation links (?code= or ?token_hash=&type=).
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = request.nextUrl;
+  const code = searchParams.get("code");
+  const tokenHash = searchParams.get("token_hash");
+  const type = searchParams.get("type") as EmailOtpType | null;
+  const nextParam = searchParams.get("next") ?? "/en/dashboard";
+  // Relative, same-site paths only.
+  const next = /^\/(en|hi)(\/|$)/.test(nextParam) && !nextParam.startsWith("//") ? nextParam : "/en/dashboard";
+  const locale = next.slice(1, 3);
+
+  const supabase = await createClient();
+  let ok = false;
+  if (code) {
+    ok = !(await supabase.auth.exchangeCodeForSession(code)).error;
+  } else if (tokenHash && type) {
+    ok = !(await supabase.auth.verifyOtp({ type, token_hash: tokenHash })).error;
+  }
+
+  return NextResponse.redirect(new URL(ok ? next : `/${locale}/login?error=link`, origin));
+}
