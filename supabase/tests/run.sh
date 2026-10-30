@@ -23,3 +23,4 @@ for f in supabase/migrations/*.sql; do
   psql_run < "$f"
 done
 psql_run < supabase/tests/rls_test.sql
+psql_run < supabase/tests/features_test.sql

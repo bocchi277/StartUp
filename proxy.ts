@@ -7,7 +7,7 @@ import type { Database } from "@/types/database";
 const handleI18n = createIntlMiddleware(routing);
 
 // Paths (after the locale prefix) that need a signed-in user.
-const PROTECTED = /^\/(w|e|admin|onboarding|dashboard)(\/|$)/;
+const PROTECTED = /^\/(w|e|admin|onboarding|dashboard|notifications|reset-password)(\/|$)/;
 const AUTH_PAGES = /^\/(login|signup)(\/|$)/;
 
 export async function proxy(request: NextRequest) {

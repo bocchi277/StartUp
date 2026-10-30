@@ -1,14 +1,274 @@
 @import "tailwindcss";
 
+/* =============================================================================
+   Design system: "Kitchen ticket"
+   - Paper and ink, like a KOT (kitchen order ticket) pinned on the pass.
+   - Spice colours: masala (primary), haldi (accent), curry leaf (verified/success),
+     neel (info), chilli (danger), kokum (secondary accent).
+   - Fraunces for display, Bricolage Grotesque for text, JetBrains Mono for
+     ticket details. Devanagari falls back to Rozha One (display) and Mukta (text).
+   The Tailwind stone/orange/green/yellow/blue/red scales are remapped to these
+   tones so every utility in the app picks up the palette.
+   ============================================================================= */
+
 @theme {
-  /* System fonts: every Android phone ships Noto Sans Devanagari, so Hindi renders without downloading a web font. */
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+  --font-display: var(--font-fraunces), var(--font-rozha), Georgia, serif;
+  --font-sans: var(--font-bricolage), var(--font-mukta), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), var(--font-mukta), ui-monospace, monospace;
+
+  --color-ink: #1e1915;
+  --color-paper: #fbf5ea;
+  --color-cream: #fffbf3;
+  --color-line: #e7dcc8;
+  --color-haldi: #f4b02a;
+  --color-kokum: #7a2e55;
+  --color-kokum-soft: #f3e3ec;
+
+  /* paper → ink */
+  --color-stone-50: #fbf5ea;
+  --color-stone-100: #f4ebdb;
+  --color-stone-200: #e7dcc8;
+  --color-stone-300: #d4c5ac;
+  --color-stone-400: #a89a84;
+  --color-stone-500: #7d7062;
+  --color-stone-600: #5e5348;
+  --color-stone-700: #463d35;
+  --color-stone-800: #2e2721;
+  --color-stone-900: #1e1915;
+
+  /* masala (primary) */
+  --color-orange-50: #fdf0ea;
+  --color-orange-100: #fadbcd;
+  --color-orange-200: #f4b79c;
+  --color-orange-300: #ec8d66;
+  --color-orange-400: #e3683a;
+  --color-orange-500: #d44e1f;
+  --color-orange-600: #bc3f15;
+  --color-orange-700: #9c3212;
+  --color-orange-800: #7a2911;
+  --color-orange-900: #5a1f0e;
+
+  /* curry leaf (verified / success) */
+  --color-green-50: #eef5ec;
+  --color-green-100: #d7e8d2;
+  --color-green-200: #b1d2a8;
+  --color-green-300: #85b67a;
+  --color-green-400: #5c9852;
+  --color-green-500: #3f7c3a;
+  --color-green-600: #2f6530;
+  --color-green-700: #285229;
+  --color-green-800: #214223;
+  --color-green-900: #1a341c;
+
+  /* haldi (warning / highlight) */
+  --color-yellow-50: #fef8e7;
+  --color-yellow-100: #fdefc4;
+  --color-yellow-200: #fadf8a;
+  --color-yellow-300: #f6cb4f;
+  --color-yellow-400: #f4b02a;
+  --color-yellow-500: #e39614;
+  --color-yellow-600: #c2740d;
+  --color-yellow-700: #9a560f;
+  --color-yellow-800: #7c4413;
+  --color-yellow-900: #663813;
+
+  /* neel (info) */
+  --color-blue-50: #eef1fa;
+  --color-blue-100: #dce2f4;
+  --color-blue-200: #b8c4e8;
+  --color-blue-300: #8c9fd6;
+  --color-blue-400: #6177c0;
+  --color-blue-500: #4459a6;
+  --color-blue-600: #354789;
+  --color-blue-700: #2d3b6f;
+  --color-blue-800: #26315a;
+  --color-blue-900: #1f2848;
+
+  /* chilli (danger) */
+  --color-red-50: #fdeeec;
+  --color-red-100: #fad5d0;
+  --color-red-200: #f3a9a0;
+  --color-red-300: #ea7a6d;
+  --color-red-400: #de5446;
+  --color-red-500: #c93a2c;
+  --color-red-600: #a92d22;
+  --color-red-700: #8a251d;
+  --color-red-800: #6e1f19;
+  --color-red-900: #561a16;
+
+  --shadow-hard: 3px 3px 0 0 var(--color-ink);
+  --shadow-hard-lg: 6px 6px 0 0 var(--color-ink);
+  --shadow-soft: 0 1px 0 0 var(--color-line), 0 8px 24px -12px rgb(30 25 21 / 0.18);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 6rem;
 }
 
 body {
-  @apply bg-stone-50 font-sans text-stone-900 antialiased;
+  @apply bg-paper font-sans text-ink antialiased;
+  overflow-x: clip; /* full-bleed bands use 100vw */
+  /* faint graph-paper grain, like an order pad */
+  background-image:
+    radial-gradient(rgb(30 25 21 / 0.045) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+::selection {
+  background: var(--color-haldi);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-haldi);
+  outline-offset: 2px;
+}
+
+@layer components {
+  /* Fraunces with its soft, slightly "wonky" display cut. */
+  .font-display {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 60, "WONK" 0, "opsz" 96;
+    letter-spacing: -0.015em;
+  }
+  .font-display-wonky {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-stone-600;
+  }
+
+  /* ---------------- Kitchen ticket ---------------- */
+  .ticket {
+    position: relative;
+    background: var(--color-cream);
+    border: 2px solid var(--color-ink);
+    border-radius: 14px;
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .ticket-hover:hover {
+    transform: translate(-2px, -2px) rotate(-0.4deg);
+    box-shadow: var(--shadow-hard-lg);
+  }
+  /* Perforated tear line with half-circle notches cut out of both edges. */
+  .ticket-tear {
+    position: relative;
+    height: 0;
+    border-top: 2px dashed var(--color-stone-300);
+    margin: 0 -2px;
+  }
+  .ticket-tear::before,
+  .ticket-tear::after {
+    content: "";
+    position: absolute;
+    top: -11px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: var(--color-paper);
+    border: 2px solid var(--color-ink);
+  }
+  .ticket-tear::before {
+    left: -11px;
+    clip-path: inset(0 0 0 50%);
+  }
+  .ticket-tear::after {
+    right: -11px;
+    clip-path: inset(0 50% 0 0);
+  }
+  .ticket-tear-on-ink::before,
+  .ticket-tear-on-ink::after {
+    background: var(--color-ink);
+  }
+
+  /* ---------------- Rubber stamp ---------------- */
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.55rem;
+    border: 2px solid currentColor;
+    border-radius: 6px;
+    outline: 1px solid currentColor;
+    outline-offset: 2px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transform: rotate(-4deg);
+    white-space: nowrap;
+    mix-blend-mode: multiply;
+  }
+
+  /* ---------------- Menu card rows with dotted leaders ---------------- */
+  .menu-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .menu-row > .leader {
+    flex: 1 1 auto;
+    min-width: 1.5rem;
+    border-bottom: 2px dotted var(--color-stone-300);
+    transform: translateY(-0.3em);
+  }
+
+  /* Brush-stroke highlight under a word in headlines. */
+  .haldi-underline {
+    background-image: linear-gradient(transparent 62%, var(--color-haldi) 62%, var(--color-haldi) 92%, transparent 92%);
+    padding: 0 0.08em;
+    border-radius: 0.1em;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-md border border-stone-300 bg-stone-50 px-2 py-0.5 text-xs font-medium text-stone-800;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Letter-spacing splits Devanagari conjuncts apart, so drop it on Hindi pages. */
+:lang(hi) .eyebrow,
+:lang(hi) .stamp,
+:lang(hi) [class*="tracking-"] {
+  letter-spacing: 0 !important;
+}
+/* The mono font has no Devanagari and its wide space looks broken in Hindi. */
+:lang(hi) .font-mono,
+:lang(hi) .eyebrow,
+:lang(hi) .stamp {
+  font-family: var(--font-sans);
+}
+
+/* Keep focused/scrolled-to fields clear of the fixed mobile tab bar. */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-bottom: 6rem;
+  }
 }

@@ -7,6 +7,8 @@ const KNOWN = new Set([
   "application_closed", "interview_time_required", "invalid_terms",
   "placement_not_pending", "placement_closed", "invalid_end_date",
   "job_removed_by_admin", "only_admin_can_remove", "not_found",
+  "worker_not_available", "already_applied", "invite_limit", "already_invited",
+  "review_not_allowed_yet", "invalid_review", "already_reviewed", "already_responded",
 ]);
 
 export function dbErrorKey(error: PostgrestError | null | undefined): string {

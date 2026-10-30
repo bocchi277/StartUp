@@ -1,78 +1,119 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { Bell, LogOut, Shield } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { signOut } from "@/lib/actions/auth";
-import { APP_NAME } from "@/lib/brand";
+import { createClient } from "@/lib/supabase/server";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { Wordmark } from "@/components/logo";
+import { DesktopNav, MobileTabBar, type NavItem } from "@/components/nav";
+import { buttonClass } from "@/components/ui";
 
 export async function Header() {
   const user = await getCurrentUser();
   const t = await getTranslations("nav");
   const role = user?.profile.role;
 
-  const links: { href: string; label: string }[] = [];
+  let items: NavItem[] = [];
   if (!user) {
-    links.push({ href: "/jobs", label: t("findJobs") }, { href: "/signup?role=employer", label: t("hireStaff") });
+    items = [
+      { href: "/jobs", label: t("findJobs"), icon: "search" },
+      { href: "/how-it-works", label: t("howItWorks"), icon: "home" },
+    ];
   } else if (role === "worker") {
-    links.push(
-      { href: "/w", label: t("home") },
-      { href: "/jobs", label: t("findJobs") },
-      { href: "/w/applications", label: t("myApplications") },
-      { href: "/w/profile", label: t("myProfile") },
-    );
+    items = [
+      { href: "/w", label: t("home"), icon: "home", exact: true },
+      { href: "/jobs", label: t("findJobs"), icon: "search" },
+      { href: "/w/applications", label: t("myApplications"), icon: "applications" },
+      { href: "/w/saved", label: t("saved"), icon: "saved" },
+      { href: "/w/profile", label: t("myProfile"), icon: "profile" },
+    ];
   } else if (role === "employer") {
-    links.push(
-      { href: "/e", label: t("dashboard") },
-      { href: "/e/jobs/new", label: t("postJob") },
-      { href: "/e/candidates", label: t("findStaff") },
-      { href: "/e/team", label: t("myTeam") },
-      { href: "/e/business", label: t("business") },
-    );
+    items = [
+      { href: "/e", label: t("dashboard"), icon: "home", exact: true },
+      { href: "/e/jobs/new", label: t("postJob"), icon: "post" },
+      { href: "/e/candidates", label: t("findStaff"), icon: "staff" },
+      { href: "/e/team", label: t("myTeam"), icon: "team" },
+      { href: "/e/business", label: t("business"), icon: "business" },
+    ];
   }
-  if (user?.profile.is_admin) links.push({ href: "/admin", label: t("admin") });
+
+  let unread = 0;
+  if (user) {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from("notifications")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .is("read_at", null);
+    unread = count ?? 0;
+  }
+
+  const desktopItems = user?.profile.is_admin ? [...items, { href: "/admin", label: t("admin"), icon: "admin" as const }] : items;
 
   return (
-    <header className="sticky top-0 z-20 border-b border-stone-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-        <Link href={user ? "/dashboard" : "/"} className="text-lg font-bold text-orange-700">
-          {APP_NAME}
-        </Link>
-        <div className="flex items-center gap-2">
-          <Suspense>
-            <LanguageSwitcher />
-          </Suspense>
-          {user ? (
-            <form action={signOut}>
-              <button type="submit" className="rounded-lg px-2.5 py-1.5 text-sm text-stone-600 hover:bg-stone-100">
-                {t("logout")}
-              </button>
-            </form>
-          ) : (
-            <>
-              <Link href="/login" className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-100">
-                {t("login")}
-              </Link>
-              <Link href="/signup" className="rounded-lg bg-orange-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-orange-700">
-                {t("signup")}
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-      {links.length > 0 && (
-        <nav className="mx-auto max-w-6xl overflow-x-auto px-2 pb-2" aria-label={t("main")}>
-          <ul className="flex gap-1 whitespace-nowrap">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="block rounded-lg px-3 py-1.5 text-sm text-stone-700 hover:bg-orange-50 hover:text-orange-800">
-                  {l.label}
+    <>
+      <header className="sticky top-0 z-30 border-b-2 border-ink bg-paper/95 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
+          <Link href={user ? "/dashboard" : "/"} aria-label={t("home")} className="shrink-0 rounded-lg">
+            <Wordmark />
+          </Link>
+
+          <DesktopNav items={desktopItems} label={t("main")} />
+
+          <div className="flex items-center gap-1.5">
+            <Suspense>
+              <LanguageSwitcher />
+            </Suspense>
+            {user ? (
+              <>
+                {user.profile.is_admin && (
+                  <Link href="/admin" aria-label={t("admin")} className="inline-flex size-10 items-center justify-center rounded-full hover:bg-stone-200/70 md:hidden">
+                    <Shield className="size-5" aria-hidden />
+                  </Link>
+                )}
+                <Link
+                  href="/notifications"
+                  aria-label={unread ? t("notificationsUnread", { count: unread }) : t("notifications")}
+                  className="relative inline-flex size-10 items-center justify-center rounded-full hover:bg-stone-200/70"
+                >
+                  <Bell className="size-5" aria-hidden strokeWidth={2.2} />
+                  {unread > 0 && (
+                    <span className="absolute right-0.5 top-0.5 flex min-w-5 items-center justify-center rounded-full border-2 border-paper bg-orange-600 px-1 font-mono text-[10px] font-bold leading-4 text-cream">
+                      {unread > 9 ? "9+" : unread}
+                    </span>
+                  )}
                 </Link>
-              </li>
+                <form action={signOut}>
+                  <button type="submit" aria-label={t("logout")} title={t("logout")} className="inline-flex size-10 items-center justify-center rounded-full text-stone-600 hover:bg-stone-200/70 hover:text-ink">
+                    <LogOut className="size-5" aria-hidden />
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hidden rounded-full px-3 py-1.5 text-sm font-semibold text-stone-700 hover:bg-stone-200/70 sm:inline-flex">
+                  {t("login")}
+                </Link>
+                <Link href="/signup" className={buttonClass("primary", "min-h-10 px-3.5 py-1.5")}>
+                  {t("signup")}
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+        {!user && (
+          <nav aria-label={t("main")} className="mx-auto flex max-w-6xl gap-1 px-3 pb-2 md:hidden">
+            {[...items, { href: "/login", label: t("login"), icon: "profile" as const }].map((i) => (
+              <Link key={i.href} href={i.href} className="rounded-full px-3 py-1 text-sm font-semibold text-stone-700 hover:bg-stone-200/70">
+                {i.label}
+              </Link>
             ))}
-          </ul>
-        </nav>
-      )}
-    </header>
+          </nav>
+        )}
+      </header>
+      {user && items.length > 0 && <MobileTabBar items={items} label={t("main")} />}
+    </>
   );
 }

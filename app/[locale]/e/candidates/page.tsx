@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { UsersRound } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { requireBusiness } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -8,7 +9,9 @@ import { experienceLabel, formatSalaryRange } from "@/lib/format";
 import { likeEscape, page as getPage, parseJobFilters, str } from "@/lib/search-params";
 import { JobFilters } from "@/components/job-filters";
 import { Pagination } from "@/components/pagination";
-import { Badge, Card, EmptyState, PageHeader } from "@/components/ui";
+import { Avatar, Badge, EmptyState, PageHeader } from "@/components/ui";
+import { RoleIcon } from "@/components/role-icon";
+import { photoUrl } from "@/lib/storage";
 
 export async function generateMetadata() {
   const t = await getTranslations("candidates");
@@ -29,7 +32,7 @@ export default async function CandidatesPage({ searchParams }: PageProps<"/[loca
   // Only open-to-work workers. Contact details are never part of this query.
   let query = supabase
     .from("worker_profiles")
-    .select("user_id, city, state, primary_role_id, secondary_role_ids, cuisine_ids, total_experience_months, expected_salary_min, expected_salary_max, pay_frequency, needs_accommodation, updated_at, profiles(full_name)")
+    .select("user_id, photo_url, headline, city, state, primary_role_id, secondary_role_ids, cuisine_ids, total_experience_months, expected_salary_min, expected_salary_max, pay_frequency, needs_accommodation, updated_at, profiles(full_name)")
     .eq("open_to_work", true);
   if (f.state) query = query.eq("state", f.state);
   if (f.city) query = query.ilike("city", `%${likeEscape(f.city)}%`);
@@ -46,42 +49,55 @@ export default async function CandidatesPage({ searchParams }: PageProps<"/[loca
 
   return (
     <div>
-      <PageHeader title={t("title")} subtitle={t("subtitle")} />
+      <PageHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} />
       <JobFilters
         action={`/${locale}/e/candidates`}
         roles={taxonomy.roles}
         cuisines={taxonomy.cuisines}
+        showPerks={false}
         values={{ state: f.state, city: f.city, role: str(sp, "role"), cuisine: str(sp, "cuisine"), salary: str(sp, "salary"), type: f.type }}
       />
       <p className="mt-2 text-xs text-stone-500">{t("salaryFilterHint")}</p>
       <div className="mt-6">
         {rows.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {rows.slice(0, PAGE_SIZE).map((w) => {
               const exp = experienceLabel(w.total_experience_months);
+              const role = roleById.get(w.primary_role_id);
               return (
-                <Card key={w.user_id} className="hover:shadow-md">
-                  <Link href={`/e/candidates/${w.user_id}`} className="block space-y-2">
-                    <div>
-                      <p className="font-semibold text-stone-900">{w.profiles?.full_name || t("unnamed")}</p>
-                      <p className="text-sm text-stone-600">{localName(roleById.get(w.primary_role_id), locale)} · {w.city}</p>
+                <article key={w.user_id} className="ticket ticket-hover">
+                  <Link href={`/e/candidates/${w.user_id}`} className="block rounded-[12px]">
+                    <div className="flex items-center gap-3 p-4">
+                      <Avatar src={photoUrl("avatars", w.photo_url)} name={w.profiles?.full_name || "?"} size={52} />
+                      <div className="min-w-0">
+                        <p className="eyebrow flex items-center gap-1 text-orange-700"><RoleIcon slug={role?.slug} className="size-3" /> {localName(role, locale)}</p>
+                        <p className="truncate font-display text-lg font-semibold">{w.profiles?.full_name || t("unnamed")}</p>
+                        <p className="truncate text-xs text-stone-600">{w.headline || w.city}</p>
+                      </div>
                     </div>
-                    <p className="text-sm">
-                      {t("experience", exp)}
-                      {(w.expected_salary_min || w.expected_salary_max) &&
-                        ` · ${formatSalaryRange(w.expected_salary_min, w.expected_salary_max, locale)} ${te(`payPer.${w.pay_frequency}`)}`}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {namesFor(w.cuisine_ids, taxonomy.cuisines, locale).slice(0, 4).map((c) => <Badge key={c}>{c}</Badge>)}
-                      {w.needs_accommodation && <Badge tone="yellow">{t("needsAccommodation")}</Badge>}
+                    <div className="ticket-tear" aria-hidden />
+                    <div className="space-y-2 p-4">
+                      <p className="font-mono text-xs text-stone-700">
+                        {t("experience", exp)} · {w.city}
+                      </p>
+                      {(w.expected_salary_min || w.expected_salary_max) && (
+                        <p className="font-display text-lg font-bold">
+                          {formatSalaryRange(w.expected_salary_min, w.expected_salary_max, locale)}
+                          <span className="ml-1 font-mono text-[11px] font-normal uppercase text-stone-500">{te(`payPer.${w.pay_frequency}`)}</span>
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-1.5">
+                        {namesFor(w.cuisine_ids, taxonomy.cuisines, locale).slice(0, 4).map((c) => <Badge key={c} tone="orange">{c}</Badge>)}
+                        {w.needs_accommodation && <Badge tone="yellow">{t("needsAccommodation")}</Badge>}
+                      </div>
                     </div>
                   </Link>
-                </Card>
+                </article>
               );
             })}
           </div>
         ) : (
-          <EmptyState title={t("noResults")}>{t("noResultsHint")}</EmptyState>
+          <EmptyState icon={<UsersRound className="size-5" />} title={t("noResults")}>{t("noResultsHint")}</EmptyState>
         )}
         <Pagination basePath="/e/candidates" searchParams={sp} page={page} hasMore={rows.length > PAGE_SIZE} />
       </div>

@@ -32,7 +32,7 @@ export function JobForm({
       {job && <input type="hidden" name="job_id" value={job.id} />}
 
       <Card className="space-y-4">
-        <h2 className="font-semibold text-stone-900">{t("sectionRole")}</h2>
+        <h2 className="font-display text-2xl font-semibold">{t("sectionRole")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={t("role")} htmlFor="role_id" required>
             <Select id="role_id" name="role_id" required defaultValue={job?.role_id ?? ""}>
@@ -77,7 +77,7 @@ export function JobForm({
 
       <Card className="space-y-4 border-orange-200">
         <div>
-          <h2 className="font-semibold text-stone-900">{t("sectionTerms")}</h2>
+          <h2 className="font-display text-2xl font-semibold">{t("sectionTerms")}</h2>
           <p className="text-sm text-stone-600">{t("termsExplainer")}</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -149,7 +149,7 @@ export function JobForm({
       </Card>
 
       <Card className="space-y-4">
-        <h2 className="font-semibold text-stone-900">{t("sectionLocation")}</h2>
+        <h2 className="font-display text-2xl font-semibold">{t("sectionLocation")}</h2>
         <LocationFields defaultState={job?.state ?? business.state} defaultCity={job?.city ?? business.city} showPincode={false} />
       </Card>
 

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card } from "@/components/ui";
+import { AuthShell, OrDivider } from "@/components/auth-shell";
 import { GoogleButton, LoginForm } from "@/components/forms/auth-forms";
 
 export async function generateMetadata() {
@@ -15,22 +15,20 @@ export default async function LoginPage({ searchParams }: PageProps<"/[locale]/l
   const t = await getTranslations("auth");
 
   return (
-    <div className="mx-auto max-w-md">
-      <h1 className="mb-6 text-2xl font-bold">{t("loginTitle")}</h1>
-      <Card className="space-y-5">
-        {linkError && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{t("linkError")}</p>}
+    <AuthShell title={t("loginTitle")} subtitle={t("loginSubtitle")}>
+      <div className="space-y-5">
+        {linkError && <p className="rounded-xl border-2 border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700">{t("linkError")}</p>}
         <GoogleButton next={next} />
-        <div className="flex items-center gap-3 text-xs text-stone-400">
-          <span className="h-px flex-1 bg-stone-200" />
-          {t("or")}
-          <span className="h-px flex-1 bg-stone-200" />
-        </div>
+        <OrDivider label={t("or")} />
         <LoginForm next={next} />
-      </Card>
-      <p className="mt-4 text-center text-sm text-stone-600">
-        {t("noAccount")}{" "}
-        <Link href="/signup" className="font-medium text-orange-700 underline">{t("signup")}</Link>
-      </p>
-    </div>
+        <div className="flex flex-wrap justify-between gap-2 text-sm">
+          <Link href="/forgot-password" className="font-semibold text-stone-700 underline underline-offset-4">{t("forgotPassword")}</Link>
+          <span className="text-stone-600">
+            {t("noAccount")}{" "}
+            <Link href="/signup" className="font-semibold text-orange-700 underline underline-offset-4">{t("signup")}</Link>
+          </span>
+        </div>
+      </div>
+    </AuthShell>
   );
 }

@@ -198,7 +198,7 @@ export const endPlacementSchema = z.object({
 });
 
 export const reportSchema = z.object({
-  target_type: z.enum(["job", "business", "worker"]),
+  target_type: z.enum(["job", "business", "worker", "review"]),
   target_id: uuid,
   reason: z.enum(REPORT_REASONS),
   details: optionalText(1000),

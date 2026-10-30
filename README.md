@@ -20,7 +20,14 @@ cp .env.example .env.local
 npm run dev               # http://localhost:3000
 ```
 
-Local auth emails (when confirmations are on) go to Mailpit at http://127.0.0.1:54324.
+Local auth emails (confirmations, password resets) go to Mailpit at http://127.0.0.1:54324.
+
+Demo data (4 restaurants, 8 jobs, 3 workers, a finished placement with reviews):
+
+```bash
+npm run db:reset && npm run db:seed-demo   # local only; refuses to run against a hosted project
+# log in as nishant@demo.in, sharma@demo.in, ravi@demo.in, meera@demo.in … password: demo-pass-123
+```
 
 Make yourself an admin (all four of us are admins):
 
@@ -35,8 +42,8 @@ docker exec -i supabase_db_hospitality-hiring psql -U postgres -c \
 npm run typecheck         # also fails on missing translation keys (keys are typed from messages/en.json)
 npm run lint
 npm run check:messages    # hi.json has exactly the same keys and {placeholders} as en.json
-npm run db:test           # RLS + RPC tests on a throwaway Postgres container
-npm run build && npx playwright test   # end-to-end demo script (needs db:start)
+npm run db:test           # RLS + RPC tests (2 files) on a throwaway Postgres container
+npm run build && npm run test:e2e   # 11 end-to-end tests at phone size (needs db:start)
 ```
 
 ## 3. Production setup (Supabase Cloud + Vercel)
@@ -48,6 +55,7 @@ npm run build && npx playwright test   # end-to-end demo script (needs db:start)
 5. **Auth → Providers → Google**: add a Google OAuth client ID/secret (Google Cloud Console → Credentials, redirect URI `https://<ref>.supabase.co/auth/v1/callback`).
 6. Vercel: import the GitHub repo, set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`.
 7. Make the team admins with the SQL above (Supabase SQL editor).
+   Photo buckets (`avatars`, `business-photos`) and their policies are created by migration 3; nothing to click.
 8. Move to the Supabase Pro plan once real clients are on it: free projects pause after a week of inactivity and have no daily backups.
 
 The app never uses the service-role / secret key. Don't add it.
@@ -85,9 +93,23 @@ tests/e2e/demo.spec.ts        the demo script from MVP_PLAN.md, end to end
 - Only the DB owner edits `supabase/migrations/`. Add a **new** migration file for changes (`npx supabase migration new <name>`), never edit an applied one. Then `npm run db:reset && npm run db:types` and commit `types/database.ts`.
 - New UI text goes into **both** `messages/en.json` and `messages/hi.json`; `npm run check:messages` catches gaps.
 
-## 6. Not built yet (next steps)
+## 6. Features
 
-- Profile/business photos (Supabase Storage bucket + policies).
-- Email/WhatsApp notifications on status changes.
-- Phone OTP login, ratings after confirmed employment, reference checks, 30/90-day retention check-ins.
-- Collapsible filters on mobile; onboarding split into steps.
+- **Workers:** 3-step onboarding, profile with photo, self-reported + Verified work history, job search with filters (collapsible on phones), saved jobs, one-tap apply, pipeline tracker, interview details, joining confirmation, invites from owners, reviews of employers.
+- **Owners:** business profile with photo and public page (`/b/[id]`), job posting with mandatory terms, "Still hiring" freshness, WhatsApp share, kanban applicant board, private notes, contact reveal on shortlist, hire → joining confirmation, team page, candidate search + invite to apply (30/day limit), reviews of workers and one reply per review.
+- **Everyone:** in-app notifications (bell + `/notifications`, created by DB triggers), password reset by email, English/Hindi, "How it works" page with trust and safety rules and FAQ.
+- **Admin:** business verification, report queue (jobs, businesses, workers, reviews), job removal, audit log.
+- **Reviews:** open after a confirmed placement ends or after 30 days; worker reviews of businesses are public but anonymous (`business_reviews_public` view hides who wrote them).
+
+## 7. Design system ("kitchen ticket")
+
+- Tokens and component classes live in `app/globals.css`: paper/ink background, spice palette (masala primary, haldi accent, curry-leaf green for Verified, kokum for invites). Tailwind's stone/orange/green/yellow/blue/red scales are remapped to these tones.
+- Fonts (`lib/fonts.ts`): Fraunces (display), Bricolage Grotesque (text), JetBrains Mono (ticket details), Rozha One + Mukta for Devanagari. Hindi pages drop letter-spacing and the mono font so conjuncts render correctly.
+- Building blocks: `.ticket` + `.ticket-tear` (job cards, panels), `<Stamp>` (Verified), `.menu-row` (terms with dotted leaders), `<StatTile>`, chunky buttons with a hard shadow (`components/ui.tsx`).
+- Phones: bottom tab bar for signed-in users (`components/nav.tsx`); everything is designed at 360–412 px first.
+
+## 8. Not built yet (next steps)
+
+- Email/WhatsApp delivery of notifications (needs Resend/WhatsApp Business API and a domain).
+- Phone OTP login, reference checks, 30/90-day retention check-ins, account deletion.
+- Terms of service and privacy policy pages (need legal review, don't copy from templates).

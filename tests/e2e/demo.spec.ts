@@ -24,6 +24,15 @@ async function signUp(page: Page, user: typeof OWNER, role: "worker" | "employer
   await page.waitForURL(`**/${locale}/onboarding`);
 }
 
+
+async function logIn(page: Page, user: typeof OWNER) {
+  await page.goto("/en/login");
+  await page.getByLabel("Email").fill(user.email);
+  await page.getByLabel("Password").fill(user.password);
+  await page.getByRole("button", { name: "Log in", exact: true }).click();
+  await page.waitForURL(/\/en\/(w|e|dashboard)(\/|$)/);
+}
+
 test.describe.serial("MVP demo script", () => {
   let jobUrl = "";
 
@@ -73,12 +82,18 @@ test.describe.serial("MVP demo script", () => {
     await signUp(page, WORKER, "worker", "hi");
     await expect(page.getByRole("heading", { name: "अपनी काम की प्रोफ़ाइल बनाएँ" })).toBeVisible();
 
+    // Step 1 of the wizard
     await page.getByLabel("मोबाइल नंबर").fill("9123456789");
     await page.getByLabel("राज्य").selectOption("Uttar Pradesh");
     await page.getByLabel("शहर / कस्बा").fill(CITY);
+    // Next is blocked until required fields are valid; role is on step 2.
+    await page.getByRole("button", { name: "आगे" }).click();
+    // Step 2
     await page.getByLabel("मुख्य रोल").selectOption({ label: "तंदूर शेफ" });
-    await page.getByRole("group", { name: "कौन सा खाना बनाना जानते हैं" }).getByRole("checkbox", { name: "तंदूरी" }).check({ force: true });
+    await page.getByRole("group", { name: "कौन सा खाना बनाना जानते हैं" }).getByText("तंदूरी", { exact: true }).click();
     await page.getByLabel("अनुभव (साल)").fill("4");
+    await page.getByRole("button", { name: "आगे" }).click();
+    // Step 3
     await page.getByRole("button", { name: "सेव करें और आगे बढ़ें" }).click();
     await page.waitForURL("**/hi/w");
     await expect(page.getByText("नमस्ते, Ravi Kumar")).toBeVisible();
@@ -136,7 +151,7 @@ test.describe.serial("MVP demo script", () => {
     await owner.getByRole("button", { name: "Log in", exact: true }).click();
     await owner.waitForURL("**/en/e");
 
-    await owner.getByRole("link", { name: /Tandoor chef for evening shift/ }).click();
+    await owner.locator('a[href*="/e/jobs/"]', { hasText: "Tandoor chef for evening shift" }).first().click();
     await owner.getByRole("link", { name: /Ravi Kumar/ }).click();
     await expect(owner.getByText("Shortlist this applicant to see their phone number and email.")).toBeVisible();
     await expect(owner.getByText("Sharma Dhaba")).toBeVisible();
@@ -193,7 +208,7 @@ test.describe.serial("MVP demo script", () => {
     await admin.waitForURL("**/en/e");
 
     await admin.goto("/en/admin/reports");
-    const report = admin.locator("div.rounded-xl", { hasText: `Salary is lower in reality ${run}` });
+    const report = admin.locator("div.rounded-2xl", { hasText: `Salary is lower in reality ${run}` });
     await report.locator('select[name="status"]').selectOption("resolved");
     await report.locator('input[name="note"]').fill("Called the owner, salary corrected");
     await report.getByRole("button", { name: "Save" }).click();
@@ -202,7 +217,7 @@ test.describe.serial("MVP demo script", () => {
     expect(sql(`select status from public.reports where details = 'Salary is lower in reality ${run}'`)).toBe("resolved");
 
     await admin.goto("/en/admin/businesses");
-    const biz = admin.locator("div.rounded-xl", { hasText: CAFE });
+    const biz = admin.locator("div.rounded-2xl", { hasText: CAFE });
     await biz.locator('select[name="level"]').selectOption("business_verified");
     await biz.getByRole("button", { name: "Save" }).click();
     // Verified businesses drop out of the default "not verified" list.
@@ -213,7 +228,7 @@ test.describe.serial("MVP demo script", () => {
     await expect(admin.getByText("business.verification_changed").first()).toBeVisible();
 
     await admin.goto(`/en${jobUrl}`);
-    await expect(admin.getByText("✓Business verified").or(admin.getByText("✓ Business verified")).first()).toBeVisible();
+    await expect(admin.getByText("Business verified", { exact: true }).first()).toBeVisible();
     await admin.close();
   });
 
@@ -241,5 +256,130 @@ test.describe.serial("MVP demo script", () => {
       body: JSON.stringify({ worker_id: auth.user.id, employer_name: "Fake Hotel", start_date: "2020-01-01", source: "platform_verified" }),
     });
     expect(selfVerify.status).toBeGreaterThanOrEqual(400);
+  });
+
+  test("9. after the job ends both sides review each other; ratings show on the business page", async ({ browser }) => {
+    const owner = await browser.newPage();
+    await logIn(owner, OWNER);
+    await owner.goto("/en/e/team");
+    await owner.getByRole("button", { name: "I/they left this job" }).click();
+    await owner.locator('input[name="end_date"]').fill(new Date().toISOString().slice(0, 10));
+    await owner.getByLabel("Reason").fill("Season ended");
+    await owner.getByRole("button", { name: "Confirm" }).click();
+    await owner.getByRole("button", { name: "Rate this worker" }).click();
+    await owner.locator('input[name="rating"][value="5"]').evaluate((el: HTMLInputElement) => el.click());
+    await owner.locator('input[name="would_return"][value="yes"]').evaluate((el: HTMLInputElement) => el.click());
+    await owner.getByLabel("Comment").fill(`Reliable on busy nights ${run}`);
+    await owner.getByRole("button", { name: "Post review" }).click();
+    await expect(owner.getByText("You reviewed this job")).toBeVisible();
+
+    const worker = await browser.newPage();
+    await logIn(worker, WORKER);
+    await worker.goto("/en/w/applications");
+    await worker.getByRole("button", { name: "Rate this employer" }).click();
+    await worker.locator('input[name="rating"][value="4"]').evaluate((el: HTMLInputElement) => el.click());
+    await worker.locator('input[name="would_return"][value="yes"]').evaluate((el: HTMLInputElement) => el.click());
+    await worker.locator('input[name="terms_matched"][value="yes"]').evaluate((el: HTMLInputElement) => el.click());
+    await worker.locator('input[name="paid_on_time"][value="no"]').evaluate((el: HTMLInputElement) => el.click());
+    await worker.getByLabel("Comment").fill(`Good team, salary came late ${run}`);
+    await worker.getByRole("button", { name: "Post review" }).click();
+    await expect(worker.getByText("You reviewed this job")).toBeVisible();
+
+    // The worker sees what the employer said; the public page shows the anonymous review.
+    await worker.goto("/en/w/profile");
+    await expect(worker.getByText(`Reliable on busy nights ${run}`)).toBeVisible();
+    const bizId = sql(`select id from public.businesses where name = '${CAFE}'`);
+    await worker.goto(`/en/b/${bizId}`);
+    await expect(worker.getByText(`Good team, salary came late ${run}`)).toBeVisible();
+    await expect(worker.getByText("Paid late")).toBeVisible();
+    await expect(worker.getByText(WORKER.name)).toHaveCount(0);
+
+    // Owner replies once.
+    await owner.goto("/en/e/business");
+    await owner.getByRole("button", { name: "Reply" }).click();
+    await owner.getByLabel("Reply").fill("Salary date is fixed to the 1st now");
+    await owner.getByRole("button", { name: "Post reply" }).click();
+    await expect(owner.getByText("Salary date is fixed to the 1st now")).toBeVisible();
+    await owner.close();
+    await worker.close();
+  });
+
+  test("10. owner invites a worker; worker saves the job and sees notifications", async ({ browser }) => {
+    const bizId = sql(`select id from public.businesses where name = '${CAFE}'`);
+    sql(`insert into public.jobs (business_id, role_id, title, salary_min, salary_max, pay_frequency, shift_start, shift_end,
+         weekly_offs, meals, accommodation, deductions, employment_type, state, city, status)
+         values ('${bizId}', 2, 'Tandoor chef, weekends ${run}', 16000, 20000, 'monthly', '12:00', '23:00', 1, 'two', false,
+         'None', 'part_time', 'Uttar Pradesh', '${CITY}', 'open')`);
+    const workerId = sql(`select id from auth.users where email = '${WORKER.email}'`);
+
+    const owner = await browser.newPage();
+    await logIn(owner, OWNER);
+    await owner.goto(`/en/e/candidates/${workerId}`);
+    await owner.getByLabel("Message").fill("We liked your profile");
+    await owner.getByRole("button", { name: "Send invite" }).click();
+    await expect(owner.getByText(`Invited to Tandoor chef, weekends ${run}`)).toBeVisible();
+    await owner.close();
+
+    const worker = await browser.newPage();
+    await logIn(worker, WORKER);
+    await worker.goto("/en/w");
+    await worker.getByRole("link", { name: new RegExp(`Tandoor chef, weekends ${run}`) }).first().click();
+    await expect(worker.getByText(`${CAFE} invited you to apply`)).toBeVisible();
+    await worker.getByRole("button", { name: "Save job" }).click();
+    await expect(worker.getByRole("button", { name: "Saved" })).toBeVisible();
+    await worker.goto("/en/w/saved");
+    await expect(worker.getByText(`Tandoor chef, weekends ${run}`)).toBeVisible();
+
+    await worker.goto("/en/notifications");
+    await expect(worker.getByText(`${CAFE} hired you for Tandoor chef for evening shift. Please confirm joining.`)).toBeVisible();
+    await expect(worker.getByText(`${CAFE} invited you to apply for Tandoor chef, weekends ${run}`)).toBeVisible();
+    await worker.getByRole("button", { name: "Mark all as read" }).click();
+    await expect(worker.getByText("You're all caught up.")).toBeVisible();
+    await worker.close();
+  });
+
+  test("11. password reset by email link", async ({ page }) => {
+    await page.goto("/en/forgot-password");
+    await page.getByLabel("Email").fill(WORKER2.email);
+    await page.getByRole("button", { name: "Send reset link" }).click();
+    await expect(page.getByText("a reset link is on its way")).toBeVisible();
+
+    // Local Supabase delivers auth emails to Mailpit.
+    let link = "";
+    for (let i = 0; i < 20 && !link; i++) {
+      const list = await fetch("http://127.0.0.1:54324/api/v1/messages").then((r) => r.json());
+      const msg = list.messages?.find((m: { To: { Address: string }[] }) => m.To.some((t) => t.Address === WORKER2.email));
+      if (msg) {
+        const full = await fetch(`http://127.0.0.1:54324/api/v1/message/${msg.ID}`).then((r) => r.json());
+        link = (/https?:\/\/[^\s"<>]+verify[^\s"<>]+/.exec(full.HTML ?? full.Text) ?? [""])[0].replace(/&amp;/g, "&");
+      }
+      if (!link) await new Promise((r) => setTimeout(r, 500));
+    }
+    expect(link).toContain("type=recovery");
+    await page.goto(link);
+    await page.waitForURL("**/en/reset-password");
+    await page.getByLabel("New password").fill("new-pass-456");
+    await page.getByRole("button", { name: "Save new password" }).click();
+    await page.waitForURL(/\/en\/(w|dashboard|onboarding)/);
+
+    await page.context().clearCookies();
+    await logIn(page, { ...WORKER2, password: "new-pass-456" });
+  });
+
+  test("12. worker uploads a profile photo (resized in the browser, stored in their own folder)", async ({ page }) => {
+    await logIn(page, WORKER);
+    await page.goto("/en/w/profile");
+    // 2x2 red PNG
+    const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==", "base64");
+    await page.locator('input[type="file"]').setInputFiles({ name: "me.png", mimeType: "image/png", buffer: png });
+    await expect(page.getByRole("button", { name: "Change photo" })).toBeVisible();
+    const workerId = sql(`select id from auth.users where email = '${WORKER.email}'`);
+    const path = sql(`select photo_url from public.worker_profiles where user_id = '${workerId}'`);
+    expect(path.startsWith(`${workerId}/worker-`)).toBe(true);
+    const res = await fetch(`http://127.0.0.1:54321/storage/v1/object/public/avatars/${path}`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("image/jpeg");
+    await page.goto("/en/w");
+    await expect(page.locator(`img[src*="${path}"]`).first()).toBeVisible();
   });
 });

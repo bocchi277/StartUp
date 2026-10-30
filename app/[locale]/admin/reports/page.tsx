@@ -24,6 +24,11 @@ export default async function AdminReports({ searchParams }: PageProps<"/[locale
   const from = (pg - 1) * PAGE_SIZE;
   const { data } = await query.order("created_at", { ascending: false }).range(from, from + PAGE_SIZE);
   const rows = data ?? [];
+  const reviewIds = rows.filter((r) => r.target_type === "review").map((r) => r.target_id);
+  const { data: reviewed } = reviewIds.length
+    ? await supabase.from("reviews").select("id, rating, comment").in("id", reviewIds)
+    : { data: [] };
+  const reviewById = new Map((reviewed ?? []).map((r) => [r.id, r]));
 
   return (
     <div>
@@ -60,6 +65,11 @@ export default async function AdminReports({ searchParams }: PageProps<"/[locale
                   {te(`report_status.${r.status}`)}
                 </Badge>
               </div>
+              {r.target_type === "review" && reviewById.get(r.target_id) && (
+                <p className="rounded-lg bg-stone-100 px-3 py-2 text-sm">
+                  ★ {reviewById.get(r.target_id)!.rating} · “{reviewById.get(r.target_id)!.comment ?? "—"}”
+                </p>
+              )}
               {r.details && <p className="whitespace-pre-line text-sm">{r.details}</p>}
               {r.admin_note && <p className="text-sm text-stone-600">{t("adminNote")}: {r.admin_note}</p>}
               <ReportStatusForm reportId={r.id} status={r.status} />

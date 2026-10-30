@@ -4,7 +4,19 @@
     "description": "Hire verified kitchen and service staff, or find restaurant and café jobs with salary, shift and weekly offs shown upfront."
   },
   "footer": {
-    "note": "Basic access is free for workers."
+    "note": "Free for workers. Every job shows salary, shift and weekly offs before you apply.",
+    "line": "Kitchens run on people.",
+    "workers": "For workers",
+    "findJobs": "Find jobs",
+    "createProfile": "Create your profile",
+    "owners": "For owners",
+    "postJob": "Post a job",
+    "howHiringWorks": "How hiring works",
+    "trust": "Trust",
+    "verification": "What the stamps mean",
+    "safety": "Safety & reporting",
+    "faq": "FAQ",
+    "madeFor": "Made for restaurants, cafés and dhabas across India"
   },
   "common": {
     "saving": "Saving…",
@@ -16,7 +28,8 @@
     "pagination": "Pages",
     "previous": "Previous",
     "next": "Next",
-    "page": "Page {page}"
+    "page": "Page {page}",
+    "skipToContent": "Skip to content"
   },
   "nav": {
     "main": "Main menu",
@@ -33,22 +46,72 @@
     "admin": "Admin",
     "login": "Log in",
     "signup": "Sign up",
-    "logout": "Log out"
+    "logout": "Log out",
+    "howItWorks": "How it works",
+    "saved": "Saved",
+    "notifications": "Notifications",
+    "notificationsUnread": "Notifications, {count} unread"
   },
   "home": {
-    "heroTitle": "Restaurant and café jobs, with the real terms shown upfront",
-    "heroSubtitle": "Owners find skilled chefs, waiters and baristas. Workers see salary, shift timing, weekly offs, meals and stay before applying.",
+    "heroSubtitle": "Owners find chefs, waiters and baristas with work history they can trust. Workers see the salary, shift, weekly off, meals and stay before they apply.",
     "findJob": "Find a job",
     "hireStaff": "Hire staff",
-    "point1Title": "Clear job terms",
-    "point1Text": "Every job shows salary, shift timing, weekly offs, meals, accommodation and deductions. No surprises after joining.",
-    "point2Title": "Work history you can trust",
-    "point2Text": "Jobs found here and confirmed by both sides are marked Verified. Everything else is clearly marked Self-reported.",
-    "point3Title": "Built for kitchens and floors",
-    "point3Text": "Search by role, cuisine and skill: tandoor, wok, pastry, barista, table service and more.",
-    "latestJobs": "Latest jobs",
+    "point1Title": "The terms are on the ticket",
+    "point1Text": "No job goes live without salary, shift timing, weekly offs, meals, accommodation and deductions. What you read is what was promised.",
+    "point2Title": "Verified means verified",
+    "point2Text": "A job only becomes Verified history when the owner hires and the worker confirms joining. Everything else is labelled Self-reported.",
+    "point3Title": "Your number stays yours",
+    "point3Text": "Workers' phone numbers are hidden until an owner shortlists them. No spam calls from every restaurant in town.",
+    "latestJobs": "Fresh off the pass",
     "seeAll": "See all jobs →",
-    "noJobsYet": "No jobs posted yet."
+    "noJobsYet": "No jobs posted yet.",
+    "eyebrow": "Restaurants · Cafés · Dhabas · All India",
+    "heroLine1": "Good kitchens.",
+    "heroLine2": "Fair terms.",
+    "heroLine3": "Staff who stay.",
+    "trust1": "Salary on every job",
+    "trust2": "Phone hidden until shortlisted",
+    "trust3": "Free for workers",
+    "rolesLabel": "Roles you can hire or find",
+    "promisesTitle": "Three things we never skip",
+    "trustEyebrow": "Work history",
+    "trustTitle": "Two years at one place, or three kitchens in six months? Now you can tell.",
+    "trustText": "Each past job is marked by how we know about it. Workers can add the reason they left, because late salary and 14-hour days are part of the story too.",
+    "sampleReason": "Salary was paid late",
+    "howTitle": "How it works",
+    "forWorkers": "For workers",
+    "forOwners": "For owners",
+    "w1Title": "Make a profile in 3 steps",
+    "w1Text": "Your role, cuisines, skills and the pay you want. No CV needed.",
+    "w2Title": "Compare real terms",
+    "w2Text": "Filter by city, salary, meals and accommodation. Every ticket shows the full deal.",
+    "w3Title": "Apply and track",
+    "w3Text": "See when you're shortlisted, get interview details, and confirm joining to earn a Verified job.",
+    "o1Title": "Post a job with clear terms",
+    "o1Text": "Takes three minutes. Share it on WhatsApp groups with one tap.",
+    "o2Title": "Shortlist with confidence",
+    "o2Text": "Read work history, reviews from past employers and the reasons people left.",
+    "o3Title": "Hire and keep track",
+    "o3Text": "Mark hired with the agreed salary. Your team, reviews and history stay in one place.",
+    "ctaWorker": "Create my profile",
+    "ctaOwner": "Start hiring",
+    "ctaTitle": "Short-staffed before the evening rush?",
+    "ctaText": "Post the job now. Workers nearby see the full terms and can apply from their phone in a minute.",
+    "ctaButton": "Post a job free",
+    "sample": {
+      "role": "Tandoor Chef",
+      "title": "Tandoor chef, evening shift",
+      "business": "Flavora Cafe",
+      "city": "Lucknow",
+      "perMonth": "per month",
+      "shift": "4 PM – 11 PM",
+      "offs": "1 off/week",
+      "meals": "2 meals",
+      "stay": "Stay",
+      "verified": "Business verified",
+      "sticker": "Salary shown upfront",
+      "deductions": "None"
+    }
   },
   "auth": {
     "loginTitle": "Log in",
@@ -68,7 +131,19 @@
     "signup": "Sign up",
     "noAccount": "New here?",
     "haveAccount": "Already have an account?",
-    "linkError": "That link has expired or was already used. Please log in or sign up again."
+    "linkError": "That link has expired or was already used. Please log in or sign up again.",
+    "loginSubtitle": "Welcome back. Pick up where you left off.",
+    "forgotPassword": "Forgot password?",
+    "roleWorkerHint": "Chef, waiter, barista, helper…",
+    "roleEmployerHint": "Restaurant, café, hotel, catering…",
+    "sendResetLink": "Send reset link",
+    "newPassword": "New password",
+    "savePassword": "Save new password",
+    "forgotTitle": "Reset your password",
+    "forgotSubtitle": "Enter your email and we'll send you a link to set a new password.",
+    "backToLogin": "Back to log in",
+    "resetTitle": "Choose a new password",
+    "resetSubtitle": "You'll stay logged in after saving."
   },
   "onboarding": {
     "title": "Get started",
@@ -117,7 +192,10 @@
     "about": "More about your experience",
     "aboutHint": "Dishes you are good at, places you worked, anything owners should know.",
     "save": "Save profile",
-    "saveAndContinue": "Save and continue"
+    "saveAndContinue": "Save and continue",
+    "progress": "Profile steps",
+    "back": "Back",
+    "next": "Next"
   },
   "workerProfile": {
     "title": "My profile",
@@ -156,7 +234,17 @@
     "nearYou": "Jobs for you in {city}",
     "noneNearby": "No matching jobs in your city right now",
     "noneNearbyHint": "Try searching all jobs or add more roles to your profile.",
-    "inState": "More in {state}"
+    "inState": "More in {state}",
+    "editProfile": "Edit profile",
+    "statActive": "Active applications",
+    "statSaved": "Saved jobs",
+    "strength": "Profile strength",
+    "checkPhoto": "Photo",
+    "checkSkills": "Cuisines & skills",
+    "checkHistory": "Past jobs",
+    "checkSalary": "Expected salary",
+    "invitesTitle": "Invitations",
+    "invitedBy": "{business} invited you"
   },
   "workerApplications": {
     "title": "My applications",
@@ -173,7 +261,9 @@
     "withdraw": "Withdraw application",
     "confirmWithdraw": "Withdraw this application?",
     "jobsTitle": "Jobs through this app",
-    "present": "Present"
+    "present": "Present",
+    "eyebrow": "Your tickets",
+    "hiredEyebrow": "You're hired"
   },
   "placement": {
     "markLeft": "I/they left this job",
@@ -207,7 +297,16 @@
     "coverNote": "Message to the owner",
     "coverNoteHint": "Optional. e.g. when you can join or what dishes you specialise in.",
     "apply": "Apply now",
-    "shareWhatsApp": "Share on WhatsApp"
+    "shareWhatsApp": "Share on WhatsApp",
+    "eyebrow": "Job board",
+    "resultCount": "{count, plural, =1 {1 job} other {# jobs}}",
+    "openingsShort": "{count} openings",
+    "seeEmployer": "See employer and reviews",
+    "salaryLabel": "Salary",
+    "invitedBanner": "{business} invited you to apply",
+    "phoneHidden": "Your phone number stays hidden until the owner shortlists you.",
+    "save": "Save job",
+    "saved": "Saved"
   },
   "terms": {
     "title": "Job terms",
@@ -228,7 +327,9 @@
     "experienceValue": "{years, plural, =0 {} =1 {1 year } other {# years }}{months, plural, =0 {} =1 {1 month} other {# months}}",
     "freshersWelcome": "Freshers welcome",
     "joining": "Joining",
-    "asSoonAsPossible": "As soon as possible"
+    "asSoonAsPossible": "As soon as possible",
+    "menuEyebrow": "As promised by the owner",
+    "footer": "Written by the owner before you apply. If anything is different after joining, report it."
   },
   "filters": {
     "state": "State",
@@ -245,7 +346,8 @@
     "mealsProvided": "Meals provided",
     "accommodationProvided": "Accommodation provided",
     "search": "Search",
-    "clear": "Clear"
+    "clear": "Clear",
+    "toggle": "Filters"
   },
   "businessForm": {
     "name": "Business name",
@@ -267,7 +369,12 @@
       "unverified": "Confirm your email address to get the Email verified label.",
       "email_verified": "Our team will call you to check your business. Verified businesses get more applications.",
       "business_verified": "Our team has checked your business. Workers see a Verified label on your jobs."
-    }
+    },
+    "viewPublic": "View public page",
+    "photo": "Photo",
+    "reviewsTitle": "What your staff say",
+    "reviewsHint": "Staff hired through the app can review you after they leave or after 30 days.",
+    "details": "Business details"
   },
   "employerHome": {
     "postJob": "Post a job",
@@ -279,7 +386,14 @@
     "noJobs": "You haven't posted a job yet",
     "postFirstJob": "Post your first job",
     "applicantsCount": "{count, plural, =0 {No applicants} =1 {1 applicant} other {# applicants}}",
-    "newCount": "{count} new"
+    "newCount": "{count} new",
+    "eyebrow": "Dashboard",
+    "activeTeam": "Working now",
+    "staleTitle": "{count, plural, =1 {1 job needs} other {# jobs need}} a check",
+    "staleHint": "Not confirmed for 2 weeks. Tap \"Still hiring\" so workers know the job is real.",
+    "applicantsLabel": "applicants",
+    "latestApplicants": "New applicants",
+    "noNewApplicants": "No new applicants"
   },
   "jobForm": {
     "newTitle": "Post a job",
@@ -340,7 +454,8 @@
     "noApplicants": "No applicants yet",
     "noApplicantsHint": "Share the job on WhatsApp from the public page to reach more people.",
     "unnamed": "Unnamed",
-    "experience": "{years, plural, =0 {} other {#y}} {months, plural, =0 {} other {#m}} exp"
+    "experience": "{years, plural, =0 {} other {#y}} {months, plural, =0 {} other {#m}} exp",
+    "closedApplicants": "Not selected or withdrawn ({count})"
   },
   "applicant": {
     "noProfile": "This worker has not completed a profile.",
@@ -397,7 +512,8 @@
     "back": "Back to search",
     "appliedToYou": "This worker applied to your jobs:",
     "contactAfterApply": "To contact this worker, share your job link with them. Contact details unlock once they apply and you shortlist them.",
-    "workHistory": "Work history"
+    "workHistory": "Work history",
+    "eyebrow": "Talent"
   },
   "workerSummary": {
     "unnamed": "Unnamed",
@@ -417,7 +533,8 @@
     "cuisines": "Cuisines",
     "skills": "Skills",
     "languages": "Languages",
-    "willingToRelocate": "Willing to move to another city."
+    "willingToRelocate": "Willing to move to another city.",
+    "fresher": "Fresher"
   },
   "team": {
     "title": "My team",
@@ -428,13 +545,15 @@
     "present": "Present",
     "daysWorked": "{days} days",
     "waitingForWorker": "Waiting for the worker to confirm joining.",
-    "exitReason": "Reason"
+    "exitReason": "Reason",
+    "eyebrow": "Staff"
   },
   "report": {
     "open": {
       "job": "Report this job",
       "business": "Report this business",
-      "worker": "Report this worker"
+      "worker": "Report this worker",
+      "review": "Report this review"
     },
     "reason": "What's wrong?",
     "chooseReason": "Choose a reason",
@@ -492,38 +611,98 @@
     "nepali": "Nepali"
   },
   "enums": {
-    "pay_frequency": { "monthly": "Monthly", "weekly": "Weekly", "daily": "Daily" },
-    "payPer": { "monthly": "/ month", "weekly": "/ week", "daily": "/ day" },
+    "pay_frequency": {
+      "monthly": "Monthly",
+      "weekly": "Weekly",
+      "daily": "Daily"
+    },
+    "payPer": {
+      "monthly": "/ month",
+      "weekly": "/ week",
+      "daily": "/ day"
+    },
     "shift_preference": {
-      "morning": "Morning", "afternoon": "Afternoon", "evening": "Evening", "night": "Night",
-      "split": "Split shift", "rotational": "Rotational", "any": "Any shift"
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night",
+      "split": "Split shift",
+      "rotational": "Rotational",
+      "any": "Any shift"
     },
     "employment_type": {
-      "full_time": "Full-time", "part_time": "Part-time", "temporary": "Temporary",
-      "seasonal": "Seasonal", "contract": "Contract"
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "temporary": "Temporary",
+      "seasonal": "Seasonal",
+      "contract": "Contract"
     },
     "business_category": {
-      "cafe": "Café", "restaurant": "Restaurant", "qsr": "Quick service / fast food", "bakery": "Bakery",
-      "cloud_kitchen": "Cloud kitchen", "hotel": "Hotel", "catering": "Catering", "bar": "Bar / pub", "other": "Other"
+      "cafe": "Café",
+      "restaurant": "Restaurant",
+      "qsr": "Quick service / fast food",
+      "bakery": "Bakery",
+      "cloud_kitchen": "Cloud kitchen",
+      "hotel": "Hotel",
+      "catering": "Catering",
+      "bar": "Bar / pub",
+      "other": "Other"
     },
     "verification_level": {
-      "unverified": "Unverified", "email_verified": "Email verified", "business_verified": "Business verified"
+      "unverified": "Unverified",
+      "email_verified": "Email verified",
+      "business_verified": "Business verified"
     },
     "job_status": {
-      "draft": "Draft", "open": "Open", "paused": "Paused", "closed": "Closed", "filled": "Filled", "removed": "Removed"
+      "draft": "Draft",
+      "open": "Open",
+      "paused": "Paused",
+      "closed": "Closed",
+      "filled": "Filled",
+      "removed": "Removed"
     },
-    "meals": { "none": "No meals", "one": "1 meal", "two": "2 meals", "all": "All meals" },
+    "meals": {
+      "none": "No meals",
+      "one": "1 meal",
+      "two": "2 meals",
+      "all": "All meals"
+    },
     "application_status": {
-      "applied": "Applied", "shortlisted": "Shortlisted", "interview": "Interview", "offered": "Offer made",
-      "hired": "Hired", "rejected": "Not selected", "withdrawn": "Withdrawn"
+      "applied": "Applied",
+      "shortlisted": "Shortlisted",
+      "interview": "Interview",
+      "offered": "Offer made",
+      "hired": "Hired",
+      "rejected": "Not selected",
+      "withdrawn": "Withdrawn"
     },
-    "placement_status": { "pending": "Awaiting confirmation", "active": "Working", "ended": "Left", "cancelled": "Didn't join" },
-    "report_target": { "job": "Job", "business": "Business", "worker": "Worker" },
+    "placement_status": {
+      "pending": "Awaiting confirmation",
+      "active": "Working",
+      "ended": "Left",
+      "cancelled": "Didn't join"
+    },
+    "report_target": {
+      "job": "Job",
+      "business": "Business",
+      "worker": "Worker",
+      "review": "Review"
+    },
     "report_reason": {
-      "fake_job": "Fake job", "wrong_terms": "Terms are different in reality", "harassment": "Harassment or abuse",
-      "unpaid_wages": "Wages not paid", "false_profile": "False profile or claims", "spam": "Spam", "other": "Other"
+      "fake_job": "Fake job",
+      "wrong_terms": "Terms are different in reality",
+      "harassment": "Harassment or abuse",
+      "unpaid_wages": "Wages not paid",
+      "false_profile": "False profile or claims",
+      "spam": "Spam",
+      "other": "Other"
     },
-    "report_status": { "open": "Open", "reviewing": "Reviewing", "resolved": "Resolved", "dismissed": "Dismissed" }
+    "report_status": {
+      "open": "Open",
+      "reviewing": "Reviewing",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    }
   },
   "messages": {
     "saved": "Saved.",
@@ -532,12 +711,15 @@
     "joined": "Thank you! This job is now Verified in your work history.",
     "hired": "Marked as hired. The worker will be asked to confirm joining.",
     "refreshed": "Thanks! The job stays live for 30 more days.",
-    "reportSent": "Report sent. Our team will look into it."
+    "reportSent": "Report sent. Our team will look into it.",
+    "resetSent": "If an account exists for that email, a reset link is on its way.",
+    "photoSaved": "Photo updated.",
+    "inviteSent": "Invite sent. The worker will see it on their home screen.",
+    "reviewSent": "Thanks! Your review is posted."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "invalidFields": "Please check the highlighted fields.",
-    "checkFields": "Fields",
     "badCredentials": "Wrong email or password.",
     "emailNotConfirmed": "Please confirm your email first. Check your inbox.",
     "weakPassword": "Choose a stronger password (at least 8 characters).",
@@ -558,6 +740,185 @@
     "placement_closed": "This placement has already ended.",
     "invalid_end_date": "The last working day can't be before the start date.",
     "job_removed_by_admin": "Our team removed this job, so it can't be changed.",
-    "only_admin_can_remove": "Only our team can remove jobs."
+    "only_admin_can_remove": "Only our team can remove jobs.",
+    "samePassword": "Choose a password different from your old one.",
+    "worker_not_available": "This worker isn't looking for work right now.",
+    "already_applied": "This worker has already applied to that job.",
+    "invite_limit": "You've sent the maximum invites for today. Try again tomorrow.",
+    "already_invited": "You already invited this worker to that job.",
+    "review_not_allowed_yet": "Reviews open after the job ends or after 30 days of working.",
+    "invalid_review": "Please fill in the rating and the questions.",
+    "already_reviewed": "You have already reviewed this job.",
+    "already_responded": "You have already replied to this review."
+  },
+  "authShell": {
+    "eyebrow": "On the pass",
+    "quote": "Clear terms on day one. Fewer people walking out on day thirty.",
+    "p1": "Salary, shift and weekly offs on every job",
+    "p2": "Verified work history, not just claims",
+    "p3": "Phone numbers stay hidden until shortlisting"
+  },
+  "businessPublic": {
+    "ratings": "Ratings from staff",
+    "ratingsNote": "Only people hired through this app, who confirmed joining, can review an employer.",
+    "reviews": "What staff say",
+    "openJobs": "Open jobs ({count})",
+    "noJobs": "No open jobs right now."
+  },
+  "reviews": {
+    "rateEmployer": "Rate this employer",
+    "rateWorker": "Rate this worker",
+    "overall": "Overall",
+    "stars": "{count, plural, =1 {1 star} other {# stars}}",
+    "wouldWorkAgain": "Would you work here again?",
+    "wouldRehire": "Would you hire them again?",
+    "termsMatchedQ": "Were the job terms the same as posted?",
+    "paidOnTimeQ": "Was salary paid on time?",
+    "comment": "Comment",
+    "commentHint": "Optional. Be specific and fair; the other side can reply.",
+    "submit": "Post review",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "reply": "Reply",
+    "replyPlaceholder": "Give your side, politely.",
+    "replyOnce": "You can reply once. It is shown under the review.",
+    "postReply": "Post reply",
+    "noneBusiness": "No reviews from staff yet.",
+    "noneWorker": "No reviews from employers yet.",
+    "count": "{count, plural, =1 {1 review} other {# reviews}}",
+    "termsMatched": "Terms matched the job post",
+    "paidOnTime": "Salary paid on time",
+    "wouldWorkAgainPct": "Would work here again",
+    "wouldRehirePct": "Would hire again",
+    "tagTermsMatched": "Terms as posted",
+    "tagTermsDifferent": "Terms were different",
+    "tagPaidOnTime": "Paid on time",
+    "tagPaidLate": "Paid late",
+    "tagWouldReturn": "Would return",
+    "tagWouldNotReturn": "Would not return",
+    "replyLabel": "Reply",
+    "authorWorker": "Verified staff · {role}",
+    "staff": "Staff",
+    "employer": "Employer",
+    "aboutYou": "What employers say",
+    "fromEmployers": "From past employers",
+    "youReviewed": "You reviewed this job",
+    "availableAfter30": "You can leave a review after the job ends or after 30 days."
+  },
+  "photo": {
+    "notImage": "Please choose a photo.",
+    "failed": "Upload failed. Try a smaller photo.",
+    "choose": "Choose photo",
+    "uploading": "Uploading…",
+    "change": "Change photo",
+    "add": "Add photo",
+    "hintWorker": "A clear face photo gets more shortlists.",
+    "hintBusiness": "Your shopfront or dining area."
+  },
+  "notifications": {
+    "eyebrow": "Updates",
+    "title": "Notifications",
+    "unread": "{count, plural, =1 {1 unread} other {# unread}}",
+    "allRead": "You're all caught up.",
+    "markAll": "Mark all as read",
+    "empty": "Nothing yet",
+    "emptyHint": "Applications, interviews and hires will show up here.",
+    "new": "New",
+    "types": {
+      "new_applicant": "{worker_name} applied for {job_title}",
+      "application_status": "{business_name}: your application for {job_title} is now {status, select, shortlisted {shortlisted} interview {at interview stage} offered {an offer} rejected {not selected} other {updated}}",
+      "application_withdrawn": "{worker_name} withdrew their application for {job_title}",
+      "hired": "{business_name} hired you for {job_title}. Please confirm joining.",
+      "joined": "{worker_name} confirmed joining as {job_title}",
+      "placement_ended": "The job {job_title} at {business_name} was marked as ended",
+      "invited": "{business_name} invited you to apply for {job_title}",
+      "review_received": "You received a new {rating}-star review",
+      "business_verified": "{business_name} is now Business verified"
+    }
+  },
+  "how": {
+    "title": "How it works",
+    "eyebrow": "How it works",
+    "titleA": "Hiring with the terms",
+    "titleB": "written down.",
+    "intro": "A job board built only for restaurants and cafés. Here is how it works for both sides, and how we keep it honest.",
+    "forWorkers": "If you're looking for work",
+    "forOwners": "If you're hiring",
+    "w1Title": "Sign up free",
+    "w1Text": "Email or Google. Choose \"Looking for work\".",
+    "w2Title": "Build your profile",
+    "w2Text": "Role, cuisines, skills, expected pay and shift. Add past jobs with the reason you left.",
+    "w3Title": "Apply to jobs with clear terms",
+    "w3Text": "Every job shows salary, shift, weekly offs, meals, stay and deductions.",
+    "w4Title": "Confirm joining",
+    "w4Text": "When an owner hires you, confirm you started. That job becomes Verified on your profile.",
+    "o1Title": "Add your business",
+    "o1Text": "Name, address and phone. Our team calls to verify you.",
+    "o2Title": "Post a job",
+    "o2Text": "The form won't publish without the full terms. Share the link on WhatsApp.",
+    "o3Title": "Review and shortlist",
+    "o3Text": "See history, reviews and notes. Phone numbers unlock when you shortlist.",
+    "o4Title": "Hire and review",
+    "o4Text": "Record the agreed salary and start date. Both sides review each other later.",
+    "stampsTitle": "What the stamps mean",
+    "businessLevels": "Businesses",
+    "level": {
+      "unverified": "Signed up, email not confirmed yet.",
+      "email_verified": "The owner confirmed their email address.",
+      "business_verified": "Our team called the business and checked the address."
+    },
+    "historyLevels": "Work history",
+    "selfReportedText": "Added by the worker. Not checked by anyone yet.",
+    "verifiedText": "The owner hired them here and the worker confirmed joining. Cannot be edited by the worker.",
+    "safetyTitle": "Safety and reporting",
+    "s1Title": "Terms in writing",
+    "s1Text": "The terms you applied for stay on the job page, so there is a record if anything changes.",
+    "s2Title": "Private by default",
+    "s2Text": "Workers' contact details are shown only to owners who shortlist them.",
+    "s3Title": "Report anything",
+    "s3Text": "Fake jobs, unpaid wages, harassment, false profiles or unfair reviews. Our team reads every report.",
+    "s4Title": "Fair reviews",
+    "s4Text": "Only confirmed placements can be reviewed, once per side, and the other side can reply.",
+    "s5Title": "No blacklists",
+    "s5Text": "Nobody is banned on one complaint. We check first and both sides can respond.",
+    "neverPayTitle": "Never pay to get a job",
+    "neverPayText": "Workers never pay owners or agents to apply or join. If someone asks, report it.",
+    "faqTitle": "Questions",
+    "q1Q": "Is it free for workers?",
+    "q1A": "Yes. Creating a profile, applying and tracking applications are free.",
+    "q2Q": "Who can see my phone number?",
+    "q2A": "Only an owner who has shortlisted you for a job you applied to, and our team.",
+    "q3Q": "Why can't I edit a Verified job?",
+    "q3A": "Because both sides confirmed it. That is what makes it worth trusting. You can add context with the reason for leaving.",
+    "q4Q": "What if the terms were different after joining?",
+    "q4A": "Report the job and leave a review once you are able to. Repeat problems lead to removal.",
+    "q5Q": "Can owners find me without me applying?",
+    "q5A": "Only if \"I am looking for work\" is on. They can invite you to apply, but still can't see your number.",
+    "q6Q": "Which cities do you cover?",
+    "q6A": "All of India. Search by state and city.",
+    "ctaTitle": "Ready when you are.",
+    "ctaJobs": "Find jobs",
+    "ctaHire": "Hire staff",
+    "contact": "Something wrong? Use the Report link on any job, business, worker or review."
+  },
+  "savedJobs": {
+    "title": "Saved jobs",
+    "subtitle": "Jobs you bookmarked to look at later.",
+    "empty": "No saved jobs",
+    "emptyHint": "Tap \"Save job\" on any job to keep it here.",
+    "browse": "Browse jobs"
+  },
+  "invite": {
+    "title": "Invite to apply",
+    "explainer": "They get a notification and see your job first. Their number stays hidden until they apply and you shortlist them.",
+    "job": "Job",
+    "chooseJob": "Choose one of your open jobs",
+    "message": "Message",
+    "messageHint": "Optional, up to 300 characters.",
+    "send": "Send invite",
+    "allInvited": "Invited to all your open jobs",
+    "postFirst": "Post a job first",
+    "invitedTo": "Invited to {job}"
   }
 }

@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Briefcase, ChefHat } from "lucide-react";
 import { ActionForm, SubmitButton, useFormState } from "@/components/action-form";
 import { Field, Input } from "@/components/ui";
-import { chooseRole, signIn, signInWithGoogle, signUp } from "@/lib/actions/auth";
+import { chooseRole, requestPasswordReset, signIn, signInWithGoogle, signUp, updatePassword } from "@/lib/actions/auth";
 
 export function GoogleButton({ next }: { next?: string }) {
   const t = useTranslations("auth");
@@ -36,6 +37,31 @@ export function LoginForm({ next }: { next?: string }) {
   );
 }
 
+function RoleCards({ defaultRole }: { defaultRole: "worker" | "employer" }) {
+  const t = useTranslations("auth");
+  const roles = [
+    { value: "worker" as const, icon: ChefHat, label: t("roleWorker"), hint: t("roleWorkerHint") },
+    { value: "employer" as const, icon: Briefcase, label: t("roleEmployer"), hint: t("roleEmployerHint") },
+  ];
+  return (
+    <fieldset>
+      <legend className="mb-2 text-sm font-semibold text-stone-800">{t("iAm")}</legend>
+      <div className="grid grid-cols-2 gap-3">
+        {roles.map(({ value, icon: Icon, label, hint }) => (
+          <label key={value} className="cursor-pointer">
+            <input type="radio" name="role" value={value} defaultChecked={value === defaultRole} className="peer sr-only" required />
+            <span className="flex h-full flex-col gap-2 rounded-2xl border-2 border-stone-300 bg-cream p-3.5 transition-all peer-checked:border-ink peer-checked:bg-haldi peer-checked:shadow-hard peer-focus-visible:ring-4 peer-focus-visible:ring-haldi/50">
+              <Icon className="size-6" aria-hidden />
+              <span className="text-sm font-bold leading-tight">{label}</span>
+              <span className="text-xs text-stone-700">{hint}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function SignupFields({ defaultRole }: { defaultRole: "worker" | "employer" }) {
   const t = useTranslations("auth");
   const { state } = useFormState();
@@ -43,19 +69,7 @@ function SignupFields({ defaultRole }: { defaultRole: "worker" | "employer" }) {
 
   return (
     <>
-      <fieldset>
-        <legend className="mb-2 text-sm font-medium text-stone-800">{t("iAm")}</legend>
-        <div className="grid grid-cols-2 gap-2">
-          {(["worker", "employer"] as const).map((role) => (
-            <label key={role} className="cursor-pointer">
-              <input type="radio" name="role" value={role} defaultChecked={role === defaultRole} className="peer sr-only" required />
-              <span className="block rounded-lg border border-stone-300 p-3 text-center text-sm peer-checked:border-orange-600 peer-checked:bg-orange-50 peer-checked:font-semibold peer-checked:text-orange-800">
-                {role === "worker" ? t("roleWorker") : t("roleEmployer")}
-              </span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
+      <RoleCards defaultRole={defaultRole} />
       <Field label={t("fullName")} htmlFor="full_name" required>
         <Input id="full_name" name="full_name" required minLength={2} maxLength={120} autoComplete="name" />
       </Field>
@@ -81,13 +95,51 @@ export function SignupForm({ defaultRole }: { defaultRole: "worker" | "employer"
 export function RoleChooser() {
   const t = useTranslations("auth");
   return (
-    <ActionForm action={chooseRole} className="grid gap-3 sm:grid-cols-2">
-      <SubmitButton name="role" value="worker" variant="secondary" className="h-24 text-base">
-        {t("roleWorker")}
-      </SubmitButton>
-      <SubmitButton name="role" value="employer" variant="secondary" className="h-24 text-base">
-        {t("roleEmployer")}
-      </SubmitButton>
+    <ActionForm action={chooseRole} className="grid gap-4 sm:grid-cols-2">
+      {[
+        { value: "worker", icon: ChefHat, label: t("roleWorker"), hint: t("roleWorkerHint") },
+        { value: "employer", icon: Briefcase, label: t("roleEmployer"), hint: t("roleEmployerHint") },
+      ].map(({ value, icon: Icon, label, hint }) => (
+        <SubmitButton key={value} name="role" value={value} variant="secondary" className="h-auto flex-col items-start gap-2 p-5 text-left">
+          <Icon className="size-7" aria-hidden />
+          <span className="font-display text-xl">{label}</span>
+          <span className="text-xs font-normal text-stone-600">{hint}</span>
+        </SubmitButton>
+      ))}
+    </ActionForm>
+  );
+}
+
+function ForgotFields() {
+  const t = useTranslations("auth");
+  const { state } = useFormState();
+  if (state.ok) return null;
+  return (
+    <>
+      <Field label={t("email")} htmlFor="email" required>
+        <Input id="email" name="email" type="email" required autoComplete="email" />
+      </Field>
+      <SubmitButton className="w-full">{t("sendResetLink")}</SubmitButton>
+    </>
+  );
+}
+
+export function ForgotPasswordForm() {
+  return (
+    <ActionForm action={requestPasswordReset} className="space-y-4">
+      <ForgotFields />
+    </ActionForm>
+  );
+}
+
+export function ResetPasswordForm() {
+  const t = useTranslations("auth");
+  return (
+    <ActionForm action={updatePassword} className="space-y-4">
+      <Field label={t("newPassword")} htmlFor="password" required hint={t("passwordHint")}>
+        <Input id="password" name="password" type="password" required minLength={8} maxLength={72} autoComplete="new-password" />
+      </Field>
+      <SubmitButton className="w-full">{t("savePassword")}</SubmitButton>
     </ActionForm>
   );
 }

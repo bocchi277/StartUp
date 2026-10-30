@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { siteUrl } from "@/lib/env";
 import { getCurrentUser } from "@/lib/auth";
 import { dbErrorKey } from "@/lib/errors";
+import { z } from "zod";
 import { formToObject, invalid, signInSchema, signUpSchema, type ActionState } from "@/lib/validation";
 
 async function callbackUrl(locale: string, next = "/dashboard") {
@@ -102,4 +103,36 @@ export async function savePreferredLanguage(lang: string) {
   if (!user || user.profile.preferred_language === lang) return;
   const supabase = await createClient();
   await supabase.from("profiles").update({ preferred_language: lang }).eq("id", user.id);
+}
+
+// Always answers "check your email" so the form can't be used to find out who has an account.
+export async function requestPasswordReset(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const locale = await getLocale();
+  const email = z.email().safeParse(String(formData.get("email") ?? "").trim());
+  if (!email.success) return { error: "invalidFields", fields: ["email"] };
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email.data, {
+    redirectTo: await callbackUrl(locale, "/reset-password"),
+  });
+  if (error?.code === "over_email_send_rate_limit") return { error: "rateLimited" };
+  if (error) console.error("[auth] reset", error.code, error.message);
+  return { ok: true, message: "resetSent" };
+}
+
+export async function updatePassword(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const locale = await getLocale();
+  const password = z.string().min(8).max(72).safeParse(formData.get("password"));
+  if (!password.success) return { error: "weakPassword", fields: ["password"] };
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims?.sub) return { error: "not_authenticated" };
+  const { error } = await supabase.auth.updateUser({ password: password.data });
+  if (error) {
+    if (error.code === "same_password") return { error: "samePassword" };
+    if (error.code === "weak_password") return { error: "weakPassword" };
+    console.error("[auth] update password", error.code, error.message);
+    return { error: "generic" };
+  }
+  redirect({ href: "/dashboard", locale });
+  return {};
 }

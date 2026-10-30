@@ -316,6 +316,56 @@ export type Database = {
           },
         ];
       };
+      job_invites: {
+        Row: {
+          business_id: string;
+          created_at: string;
+          id: string;
+          job_id: string;
+          message: string | null;
+          worker_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          business_id: string;
+          created_at?: string;
+          id?: string;
+          job_id: string;
+          message?: string | null;
+          worker_id: string;
+        };
+        Update: {
+          business_id?: string;
+          created_at?: string;
+          id?: string;
+          job_id?: string;
+          message?: string | null;
+          worker_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "job_invites_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "job_invites_job_id_fkey";
+            columns: ["job_id"];
+            isOneToOne: false;
+            referencedRelation: "jobs";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "job_invites_worker_id_fkey";
+            columns: ["worker_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       job_roles: {
         Row: {
           category: string;
@@ -449,6 +499,45 @@ export type Database = {
             columns: ["role_id"];
             isOneToOne: false;
             referencedRelation: "job_roles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      notifications: {
+        Row: {
+          created_at: string;
+          data: NonNullable<Json>;
+          id: string;
+          link: string | null;
+          read_at: string | null;
+          type: Database["public"]["Enums"]["notification_type"];
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          data?: NonNullable<Json>;
+          id?: string;
+          link?: string | null;
+          read_at?: string | null;
+          type: Database["public"]["Enums"]["notification_type"];
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          data?: NonNullable<Json>;
+          id?: string;
+          link?: string | null;
+          read_at?: string | null;
+          type?: Database["public"]["Enums"]["notification_type"];
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
         ];
@@ -619,6 +708,121 @@ export type Database = {
           },
         ];
       };
+      reviews: {
+        Row: {
+          business_id: string;
+          comment: string | null;
+          created_at: string;
+          id: string;
+          paid_on_time: boolean | null;
+          placement_id: string;
+          rating: number;
+          response: string | null;
+          response_at: string | null;
+          reviewer_id: string;
+          reviewer_side: Database["public"]["Enums"]["review_side"];
+          terms_matched: boolean | null;
+          worker_id: string;
+          would_return: boolean;
+        };
+        ComputedFields: never;
+        Insert: {
+          business_id: string;
+          comment?: string | null;
+          created_at?: string;
+          id?: string;
+          paid_on_time?: boolean | null;
+          placement_id: string;
+          rating: number;
+          response?: string | null;
+          response_at?: string | null;
+          reviewer_id: string;
+          reviewer_side: Database["public"]["Enums"]["review_side"];
+          terms_matched?: boolean | null;
+          worker_id: string;
+          would_return: boolean;
+        };
+        Update: {
+          business_id?: string;
+          comment?: string | null;
+          created_at?: string;
+          id?: string;
+          paid_on_time?: boolean | null;
+          placement_id?: string;
+          rating?: number;
+          response?: string | null;
+          response_at?: string | null;
+          reviewer_id?: string;
+          reviewer_side?: Database["public"]["Enums"]["review_side"];
+          terms_matched?: boolean | null;
+          worker_id?: string;
+          would_return?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reviews_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_placement_id_fkey";
+            columns: ["placement_id"];
+            isOneToOne: false;
+            referencedRelation: "placements";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_reviewer_id_fkey";
+            columns: ["reviewer_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_worker_id_fkey";
+            columns: ["worker_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      saved_jobs: {
+        Row: {
+          created_at: string;
+          job_id: string;
+          worker_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          job_id: string;
+          worker_id: string;
+        };
+        Update: {
+          created_at?: string;
+          job_id?: string;
+          worker_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "saved_jobs_job_id_fkey";
+            columns: ["job_id"];
+            isOneToOne: false;
+            referencedRelation: "jobs";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "saved_jobs_worker_id_fkey";
+            columns: ["worker_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       skills: {
         Row: {
           category: string;
@@ -779,7 +983,38 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      business_reviews_public: {
+        Row: {
+          business_id: string;
+          comment: string | null;
+          created_at: string;
+          id: string;
+          paid_on_time: boolean | null;
+          rating: number;
+          response: string | null;
+          response_at: string | null;
+          role_id: number;
+          terms_matched: boolean | null;
+          would_return: boolean;
+        };
+        ComputedFields: never;
+        Relationships: [
+          {
+            foreignKeyName: "jobs_role_id_fkey";
+            columns: ["role_id"];
+            isOneToOne: false;
+            referencedRelation: "job_roles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reviews_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       admin_set_business_verification: {
@@ -824,11 +1059,24 @@ export type Database = {
         };
         Returns: string;
       };
+      invite_worker: {
+        Args: { p_job_id: string; p_message?: string; p_worker_id: string };
+        Returns: string;
+      };
       is_admin: { Args: Record<PropertyKey, never>; Returns: boolean };
       job_is_open: { Args: { p_job_id: string }; Returns: boolean };
       my_role: {
         Args: Record<PropertyKey, never>;
         Returns: Database["public"]["Enums"]["app_role"];
+      };
+      notify: {
+        Args: {
+          p_data: Json;
+          p_link: string;
+          p_type: Database["public"]["Enums"]["notification_type"];
+          p_user: string;
+        };
+        Returns: undefined;
       };
       owns_application: {
         Args: { p_application_id: string };
@@ -836,6 +1084,10 @@ export type Database = {
       };
       owns_business: { Args: { p_business_id: string }; Returns: boolean };
       owns_job: { Args: { p_job_id: string }; Returns: boolean };
+      respond_to_review: {
+        Args: { p_response: string; p_review_id: string };
+        Returns: undefined;
+      };
       set_application_status: {
         Args: {
           p_application_id: string;
@@ -848,6 +1100,17 @@ export type Database = {
       set_my_role: {
         Args: { p_role: Database["public"]["Enums"]["app_role"] };
         Returns: undefined;
+      };
+      submit_review: {
+        Args: {
+          p_comment?: string;
+          p_paid_on_time?: boolean;
+          p_placement_id: string;
+          p_rating: number;
+          p_terms_matched?: boolean;
+          p_would_return: boolean;
+        };
+        Returns: string;
       };
       withdraw_application: {
         Args: { p_application_id: string };
@@ -888,6 +1151,16 @@ export type Database = {
       history_source: "self_reported" | "platform_verified";
       job_status: "draft" | "open" | "paused" | "closed" | "filled" | "removed";
       meals_provided: "none" | "one" | "two" | "all";
+      notification_type:
+        | "new_applicant"
+        | "application_status"
+        | "application_withdrawn"
+        | "hired"
+        | "joined"
+        | "placement_ended"
+        | "invited"
+        | "review_received"
+        | "business_verified";
       pay_frequency: "monthly" | "weekly" | "daily";
       placement_status: "pending" | "active" | "ended" | "cancelled";
       report_reason:
@@ -899,7 +1172,8 @@ export type Database = {
         | "spam"
         | "other";
       report_status: "open" | "reviewing" | "resolved" | "dismissed";
-      report_target: "job" | "business" | "worker";
+      report_target: "job" | "business" | "worker" | "review";
+      review_side: "worker" | "employer";
       shift_preference:
         | "morning"
         | "afternoon"
@@ -1067,6 +1341,17 @@ export const Constants = {
       history_source: ["self_reported", "platform_verified"],
       job_status: ["draft", "open", "paused", "closed", "filled", "removed"],
       meals_provided: ["none", "one", "two", "all"],
+      notification_type: [
+        "new_applicant",
+        "application_status",
+        "application_withdrawn",
+        "hired",
+        "joined",
+        "placement_ended",
+        "invited",
+        "review_received",
+        "business_verified",
+      ],
       pay_frequency: ["monthly", "weekly", "daily"],
       placement_status: ["pending", "active", "ended", "cancelled"],
       report_reason: [
@@ -1079,7 +1364,8 @@ export const Constants = {
         "other",
       ],
       report_status: ["open", "reviewing", "resolved", "dismissed"],
-      report_target: ["job", "business", "worker"],
+      report_target: ["job", "business", "worker", "review"],
+      review_side: ["worker", "employer"],
       shift_preference: [
         "morning",
         "afternoon",
