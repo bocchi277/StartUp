@@ -130,5 +130,11 @@ await insert("reviews", [
 // Ravi applies to the tandoor job so the owner's board has someone in it.
 await insert("applications", [{ job_id: tandoorJob.id, worker_id: workerIds["ravi@demo.in"], cover_note: "5 years on tandoor, can join in a week." }]);
 
+// ---------------------------------------------------------------- a local admin, plus something in the queues
+const adminId = await user("admin@demo.in", "Demo Admin", "worker");
+await patch("profiles", `id=eq.${adminId}`, { is_admin: true, onboarding_complete: true });
+await insert("reports", [{ reporter_id: workerIds["arjun@demo.in"], target_type: "job", target_id: jobs[7].id, reason: "wrong_terms", details: "Salary deductions for cash shortage were not mentioned on the phone." }]);
+
 console.log(`Demo data ready. Log in with any of these (password: ${PASSWORD}):`);
 for (const e of [...owners.map((o) => o.email), ...workers.map((w) => w.email)]) console.log("  ", e);
+console.log("   admin@demo.in  (admin)");

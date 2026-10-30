@@ -26,7 +26,7 @@ Demo data (4 restaurants, 8 jobs, 3 workers, a finished placement with reviews):
 
 ```bash
 npm run db:reset && npm run db:seed-demo   # local only; refuses to run against a hosted project
-# log in as nishant@demo.in, sharma@demo.in, ravi@demo.in, meera@demo.in … password: demo-pass-123
+# owners: nishant@ sharma@ anita@ joseph@  workers: ravi@ meera@ arjun@  admin: admin@  (all @demo.in, password demo-pass-123)
 ```
 
 Make yourself an admin (all four of us are admins):

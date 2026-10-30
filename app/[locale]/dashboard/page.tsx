@@ -9,14 +9,17 @@ export default async function DashboardRouter() {
   const locale = await getLocale();
   const role = user.profile.role;
 
+  // Admins who haven't set up a worker profile or business go straight to the admin panel.
+  const notOnboarded = user.profile.is_admin ? "/admin" : "/onboarding";
+
   if (role === "employer") {
     const business = await getMyBusiness();
-    return redirect({ href: business ? "/e" : "/onboarding", locale });
+    return redirect({ href: business ? "/e" : notOnboarded, locale });
   }
   if (role === "worker") {
     const supabase = await createClient();
     const { data } = await supabase.from("worker_profiles").select("user_id").eq("user_id", user.id).maybeSingle();
-    return redirect({ href: data ? "/w" : "/onboarding", locale });
+    return redirect({ href: data ? "/w" : notOnboarded, locale });
   }
-  return redirect({ href: "/onboarding", locale });
+  return redirect({ href: notOnboarded, locale });
 }
