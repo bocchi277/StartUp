@@ -63,7 +63,7 @@ export default async function JobsPage({ searchParams }: PageProps<"/[locale]/jo
           <p className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-stone-600">{t("resultCount", { count: count ?? rows.length })}</p>
         )}
         {rows.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {rows.slice(0, PAGE_SIZE).map((job) => (
               <JobCard key={job.id} job={job} />
             ))}

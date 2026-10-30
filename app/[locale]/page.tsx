@@ -83,7 +83,7 @@ export default async function HomePage() {
 
       {/* ------------------------------------------------ verified vs self-reported */}
       <section className="relative left-1/2 w-screen -translate-x-1/2 bg-green-700 py-14 text-cream">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
+        <div className="site-x grid items-center gap-10 md:grid-cols-2">
           <div>
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-haldi">02 · {t("trustEyebrow")}</p>
             <h2 className="mt-3 font-display text-4xl font-semibold leading-tight">{t("trustTitle")}</h2>
@@ -143,7 +143,7 @@ export default async function HomePage() {
           {t("latestJobs")}
         </SectionTitle>
         {jobs?.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {jobs.map((job) => <JobCard key={job.id} job={job} />)}
           </div>
         ) : (

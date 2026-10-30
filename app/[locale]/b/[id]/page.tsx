@@ -106,7 +106,7 @@ export default async function BusinessPublicPage({ params }: PageProps<"/[locale
       <section>
         <SectionTitle>{t("openJobs", { count: jobs?.length ?? 0 })}</SectionTitle>
         {jobs?.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {jobs.map((job) => <JobCard key={job.id} job={job} />)}
           </div>
         ) : (

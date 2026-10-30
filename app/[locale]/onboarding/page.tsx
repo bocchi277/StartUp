@@ -33,7 +33,7 @@ export default async function OnboardingPage() {
   if (role === "employer") {
     if (await getMyBusiness()) return redirect({ href: "/e", locale });
     return (
-      <div className="mx-auto max-w-3xl">
+      <div>
         <PageHeader title={t("businessTitle")} subtitle={t("businessSubtitle")} />
         <BusinessForm business={null} />
       </div>
@@ -46,7 +46,7 @@ export default async function OnboardingPage() {
 
   const taxonomy = await getTaxonomy();
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader title={t("workerTitle")} subtitle={t("workerSubtitle")} />
       <WorkerProfileForm taxonomy={taxonomy} profile={null} contacts={null} fullName={user.profile.full_name} after="onboarding" />
     </div>

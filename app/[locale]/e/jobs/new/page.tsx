@@ -14,7 +14,7 @@ export default async function NewJobPage() {
   const taxonomy = await getTaxonomy();
   const t = await getTranslations("jobForm");
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader title={t("newTitle")} subtitle={t("newSubtitle")} />
       <JobForm taxonomy={taxonomy} job={null} business={business} />
     </div>

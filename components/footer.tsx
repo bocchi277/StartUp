@@ -13,7 +13,7 @@ export async function Footer() {
 
   return (
     <footer className="relative mt-16 border-t-2 border-ink bg-ink text-cream">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1.3fr_2fr]">
+      <div className="site-x grid gap-10 py-12 md:grid-cols-[1.3fr_2fr]">
         <div>
           <Wordmark inverted />
           <p className="font-display-wonky mt-5 text-3xl leading-tight text-cream sm:text-4xl">{t("line")}</p>
@@ -37,7 +37,7 @@ export async function Footer() {
         </div>
       </div>
       <div className="border-t border-cream/15">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 font-mono text-[11px] text-stone-400">
+        <div className="site-x flex flex-wrap items-center justify-between gap-2 py-4 font-mono text-[11px] text-stone-400">
           <span>© {new Date().getFullYear()} {APP_NAME}</span>
           <span>{t("madeFor")}</span>
         </div>

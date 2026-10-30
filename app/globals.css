@@ -138,6 +138,28 @@ body {
 }
 
 @layer components {
+  /* Card grid that adds columns as the window gets wider (1 on phones, 5 on a 1920 screen). */
+  .card-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  }
+
+  /* Page side padding. Pages use the full window width; only the padding grows. */
+  .site-x {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 40rem) {
+    .site-x { padding-inline: 1.5rem; }
+  }
+  @media (min-width: 64rem) {
+    .site-x { padding-inline: 2.5rem; }
+  }
+  @media (min-width: 96rem) {
+    .site-x { padding-inline: 3.5rem; }
+  }
+
   /* Fraunces with its soft, slightly "wonky" display cut. */
   .font-display {
     font-family: var(--font-display);

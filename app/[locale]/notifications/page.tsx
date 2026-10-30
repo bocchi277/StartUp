@@ -44,7 +44,7 @@ export default async function NotificationsPage() {
   const unread = rows.filter((n) => !n.read_at).length;
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div>
       <PageHeader
         eyebrow={t("eyebrow")}
         title={t("title")}
@@ -54,7 +54,7 @@ export default async function NotificationsPage() {
       {!rows.length ? (
         <EmptyState icon={<Bell className="size-5" />} title={t("empty")}>{t("emptyHint")}</EmptyState>
       ) : (
-        <ul className="space-y-2.5">
+        <ul className="grid gap-2.5 lg:grid-cols-2">
           {rows.map((n) => {
             const Icon = ICON[n.type];
             const d = (n.data ?? {}) as Record<string, string | number>;

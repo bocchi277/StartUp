@@ -60,7 +60,7 @@ export default async function CandidatesPage({ searchParams }: PageProps<"/[loca
       <p className="mt-2 text-xs text-stone-500">{t("salaryFilterHint")}</p>
       <div className="mt-6">
         {rows.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {rows.slice(0, PAGE_SIZE).map((w) => {
               const exp = experienceLabel(w.total_experience_months);
               const role = roleById.get(w.primary_role_id);

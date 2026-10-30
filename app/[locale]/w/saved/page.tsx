@@ -27,7 +27,7 @@ export default async function SavedJobsPage() {
     <div>
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
       {jobs.length ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="card-grid">
           {jobs.map((job) => <JobCard key={job.id} job={job} />)}
         </div>
       ) : (

@@ -37,12 +37,12 @@ export default async function TeamPage() {
   const rows = (placements ?? []).sort((a, b) => order[a.status] - order[b.status]);
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} />
       {!rows.length ? (
         <EmptyState icon={<Briefcase className="size-5" />} title={t("empty")}>{t("emptyHint")}</EmptyState>
       ) : (
-        <ul className="space-y-4">
+        <ul className="grid items-start gap-4 xl:grid-cols-2">
           {rows.map((p) => (
             <li key={p.id} className="ticket p-5">
               <div className="flex flex-wrap items-start justify-between gap-3">

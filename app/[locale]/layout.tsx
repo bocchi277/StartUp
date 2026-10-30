@@ -41,7 +41,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           </a>
           <Header />
           {/* Extra bottom padding on phones keeps content clear of the tab bar. */}
-          <main id="main" className={`mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8 ${user?.profile.role ? "pb-28 md:pb-8" : ""}`}>
+          <main id="main" className={`site-x flex-1 py-6 sm:py-8 ${user?.profile.role ? "pb-28 md:pb-8" : ""}`}>
             {children}
           </main>
           <div className={user?.profile.role ? "pb-20 md:pb-0" : undefined}>

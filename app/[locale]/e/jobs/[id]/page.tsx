@@ -122,7 +122,7 @@ export default async function EmployerJobPage({ params }: PageProps<"/[locale]/e
           <EmptyState title={t("noApplicants")}>{t("noApplicantsHint")}</EmptyState>
         ) : (
           <>
-            <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
+            <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
               {BOARD.map((status) => {
                 const items = all.filter((a) => a.status === status);
                 return (

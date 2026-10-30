@@ -39,49 +39,54 @@ export default async function WorkerProfilePage() {
   const reviews: ReviewRow[] = (reviewRows ?? []).map((r) => ({ ...r, author: r.businesses?.name }));
 
   return (
-    <div className="mx-auto max-w-3xl space-y-10">
+    <div className="space-y-8">
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
 
-      <Card>
-        <PhotoUpload kind="worker" userId={user.id} currentUrl={photoUrl("avatars", profile.photo_url)} name={user.profile.full_name} />
-      </Card>
+      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <aside className="space-y-10 lg:order-2">
+          <Card>
+            <PhotoUpload kind="worker" userId={user.id} currentUrl={photoUrl("avatars", profile.photo_url)} name={user.profile.full_name} />
+          </Card>
 
-      <section>
-        <SectionTitle>{th("title")}</SectionTitle>
-        <p className="mb-4 text-sm text-stone-700">{th("explainer")}</p>
-        <Card className="space-y-6">
-          <HistoryList
-            rows={history ?? []}
-            roles={taxonomy.roles}
-            renderActions={(row) =>
-              row.source === "self_reported" ? (
-                <ActionButton action={deleteHistory} fields={{ id: row.id }} variant="ghost" confirm={th("confirmDelete")} className="mt-1">
-                  {th("delete")}
-                </ActionButton>
-              ) : null
-            }
-          />
-          <details className="rounded-2xl border-2 border-dashed border-stone-300 p-4 open:border-solid open:border-ink">
-            <summary className="cursor-pointer font-semibold text-orange-700">{th("addPrevious")}</summary>
-            <div className="mt-4">
-              <HistoryForm roles={taxonomy.roles} />
-            </div>
-          </details>
-        </Card>
-      </section>
+          <section>
+            <SectionTitle>{th("title")}</SectionTitle>
+            <p className="mb-4 text-sm text-stone-700">{th("explainer")}</p>
+            <Card className="space-y-6">
+              <HistoryList
+                rows={history ?? []}
+                roles={taxonomy.roles}
+                renderActions={(row) =>
+                  row.source === "self_reported" ? (
+                    <ActionButton action={deleteHistory} fields={{ id: row.id }} variant="ghost" confirm={th("confirmDelete")} className="mt-1">
+                      {th("delete")}
+                    </ActionButton>
+                  ) : null
+                }
+              />
+              <details className="rounded-2xl border-2 border-dashed border-stone-300 p-4 open:border-solid open:border-ink">
+                <summary className="cursor-pointer font-semibold text-orange-700">{th("addPrevious")}</summary>
+                <div className="mt-4">
+                  <HistoryForm roles={taxonomy.roles} />
+                </div>
+              </details>
+            </Card>
+          </section>
 
-      <section>
-        <SectionTitle>{tr("aboutYou")}</SectionTitle>
-        <Card className="space-y-5">
-          <RatingSummary summary={summarize(reviews)} kind="worker" />
-          <ReviewList reviews={reviews} canRespond authorFallback={tr("employer")} />
-        </Card>
-      </section>
-
-      <section>
-        <SectionTitle>{t("details")}</SectionTitle>
-        <WorkerProfileForm taxonomy={taxonomy} profile={profile} contacts={contacts} fullName={user.profile.full_name} />
-      </section>
+          <section>
+            <SectionTitle>{tr("aboutYou")}</SectionTitle>
+            <Card className="space-y-5">
+              <RatingSummary summary={summarize(reviews)} kind="worker" />
+              <ReviewList reviews={reviews} canRespond authorFallback={tr("employer")} />
+            </Card>
+          </section>
+        </aside>
+        <div className="lg:order-1">
+          <section>
+            <SectionTitle>{t("details")}</SectionTitle>
+            <WorkerProfileForm taxonomy={taxonomy} profile={profile} contacts={contacts} fullName={user.profile.full_name} />
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

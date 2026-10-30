@@ -11,9 +11,9 @@ export async function AuthShell({ title, subtitle, children }: { title: ReactNod
     { icon: EyeOff, text: t("p3") },
   ];
   return (
-    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-3xl border-2 border-ink bg-cream shadow-hard-lg md:grid-cols-[1fr_1.1fr]">
+    <div className="grid overflow-hidden rounded-3xl border-2 border-ink bg-cream shadow-hard-lg md:grid-cols-[1fr_1.1fr]">
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-ink p-9 text-cream md:flex">
-        <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-16 size-64 rounded-full border-[22px] border-orange-600/50" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-20 -right-20 size-64 rounded-full border-[22px] border-orange-600/50" />
         <div aria-hidden className="pointer-events-none absolute right-8 top-24 size-16 rotate-12 rounded-xl border-4 border-haldi/60" />
         <div className="relative">
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-haldi">{t("eyebrow")}</p>

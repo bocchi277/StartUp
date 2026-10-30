@@ -16,7 +16,7 @@ export default async function EditJobPage({ params }: PageProps<"/[locale]/e/job
   const taxonomy = await getTaxonomy();
   const t = await getTranslations("jobForm");
   return (
-    <div className="mx-auto max-w-3xl">
+    <div>
       <PageHeader title={t("editTitle")} subtitle={job.title} />
       <JobForm taxonomy={taxonomy} job={job} business={business} />
     </div>

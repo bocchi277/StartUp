@@ -123,7 +123,7 @@ export default async function WorkerHome() {
       <section>
         <SectionTitle>{t("nearYou", { city: profile.city })}</SectionTitle>
         {nearby?.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {nearby.map((job) => <JobCard key={job.id} job={job} />)}
           </div>
         ) : (
@@ -134,7 +134,7 @@ export default async function WorkerHome() {
       {more.length > 0 && (
         <section>
           <SectionTitle>{t("inState", { state: profile.state })}</SectionTitle>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="card-grid">
             {more.map((job) => <JobCard key={job.id} job={job} />)}
           </div>
         </section>

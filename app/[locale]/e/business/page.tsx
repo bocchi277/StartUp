@@ -34,7 +34,7 @@ export default async function BusinessPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-4xl space-y-10">
+    <div className="space-y-10">
       <PageHeader
         title={t("title")}
         actions={<LinkButton href={`/b/${business.id}`} variant="secondary">{t("viewPublic")} <ArrowUpRight className="size-4" aria-hidden /></LinkButton>}

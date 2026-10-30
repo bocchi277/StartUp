@@ -47,12 +47,13 @@ export default async function WorkerApplicationsPage() {
   const others = (placements ?? []).filter((p) => p.status !== "pending");
 
   return (
-    <div className="mx-auto max-w-3xl space-y-10">
+    <div className="space-y-10">
       <PageHeader eyebrow={t("eyebrow")} title={t("title")} />
 
       {pending.length > 0 && (
-        <section className="space-y-3">
+        <section>
           <SectionTitle>{t("confirmJoiningTitle")}</SectionTitle>
+          <div className="grid items-start gap-4 xl:grid-cols-2">
           {pending.map((p) => (
             <div key={p.id} className="ticket overflow-hidden">
               <div className="bg-green-600 px-5 py-3 text-cream">
@@ -75,17 +76,19 @@ export default async function WorkerApplicationsPage() {
               </div>
             </div>
           ))}
+          </div>
         </section>
       )}
 
-      <section className="space-y-3">
+      <section>
         <SectionTitle>{t("applicationsTitle")}</SectionTitle>
         {!applications?.length ? (
           <EmptyState icon={<ClipboardList className="size-5" />} title={t("empty")}>
             <LinkButton href="/jobs" className="mt-3">{t("findJobs")}</LinkButton>
           </EmptyState>
         ) : (
-          applications.map((a) => (
+          <div className="grid items-start gap-4 xl:grid-cols-2">
+          {applications.map((a) => (
             <Card key={a.id}>
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
@@ -115,13 +118,15 @@ export default async function WorkerApplicationsPage() {
                 </ActionButton>
               )}
             </Card>
-          ))
+          ))}
+          </div>
         )}
       </section>
 
       {others.length > 0 && (
-        <section className="space-y-3">
+        <section>
           <SectionTitle>{t("jobsTitle")}</SectionTitle>
+          <div className="grid items-start gap-4 xl:grid-cols-2">
           {others.map((p) => (
             <Card key={p.id}>
               <div className="flex flex-wrap items-start justify-between gap-2">
@@ -143,6 +148,7 @@ export default async function WorkerApplicationsPage() {
               ) : null}
             </Card>
           ))}
+          </div>
         </section>
       )}
     </div>

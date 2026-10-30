@@ -54,8 +54,8 @@ export async function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b-2 border-ink bg-paper/95 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
+      <header className="sticky top-0 z-30 border-b-2 border-ink bg-paper">
+        <div className="site-x flex items-center justify-between gap-3 py-2.5">
           <Link href={user ? "/dashboard" : "/"} aria-label={t("home")} className="shrink-0 rounded-lg">
             <Wordmark />
           </Link>
@@ -104,7 +104,7 @@ export async function Header() {
           </div>
         </div>
         {!user && (
-          <nav aria-label={t("main")} className="mx-auto flex max-w-6xl gap-1 px-3 pb-2 md:hidden">
+          <nav aria-label={t("main")} className="site-x flex gap-1 pb-2 md:hidden">
             {[...items, { href: "/login", label: t("login"), icon: "profile" as const }].map((i) => (
               <Link key={i.href} href={i.href} className="rounded-full px-3 py-1 text-sm font-semibold text-stone-700 hover:bg-stone-200/70">
                 {i.label}
