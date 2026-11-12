@@ -45,3 +45,6 @@ next-env.d.ts
 /playwright-report/
 /supabase/.temp/
 /supabase/.branches/
+
+# The template is safe to share.
+!.env.example
