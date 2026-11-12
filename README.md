@@ -53,7 +53,7 @@ npm run build && npm run test:e2e   # 11 end-to-end tests at phone size (needs d
 3. **Auth → URL configuration**: Site URL = your domain; add `https://<domain>/**` and `https://*-<team>.vercel.app/**` to redirect URLs.
 4. **Auth → SMTP**: connect Resend (or any SMTP). The built-in sender only emails your own team and is capped at 2 emails/hour, so clients won't receive confirmation emails without this. Resend needs a verified domain.
 5. **Auth → Providers → Google**: add a Google OAuth client ID/secret (Google Cloud Console → Credentials, redirect URI `https://<ref>.supabase.co/auth/v1/callback`).
-6. Vercel: import the GitHub repo, set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`.
+6. Vercel: import the GitHub repo, set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`, and `NEXT_PUBLIC_GOOGLE_AUTH=on` once step 5 is done.
 7. Make the team admins with the SQL above (Supabase SQL editor).
    Photo buckets (`avatars`, `business-photos`) and their policies are created by migration 3; nothing to click.
 8. Move to the Supabase Pro plan once real clients are on it: free projects pause after a week of inactivity and have no daily backups.

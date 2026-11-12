@@ -14,3 +14,8 @@ export function supabaseEnv() {
 export function siteUrl(fallbackOrigin?: string) {
   return (process.env.NEXT_PUBLIC_SITE_URL || fallbackOrigin || "http://localhost:3000").replace(/\/$/, "");
 }
+
+// Show "Continue with Google" only once the Google provider is set up in Supabase.
+export function googleAuthEnabled() {
+  return process.env.NEXT_PUBLIC_GOOGLE_AUTH === "on";
+}
