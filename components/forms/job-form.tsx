@@ -84,8 +84,8 @@ export function JobForm({
           <Field label={t("salaryMin")} htmlFor="salary_min" required>
             <Input id="salary_min" name="salary_min" type="number" min={1} inputMode="numeric" required defaultValue={job?.salary_min ?? ""} />
           </Field>
-          <Field label={t("salaryMax")} htmlFor="salary_max" required>
-            <Input id="salary_max" name="salary_max" type="number" min={1} inputMode="numeric" required defaultValue={job?.salary_max ?? ""} />
+          <Field label={t("salaryMax")} htmlFor="salary_max" hint={t("salaryMaxHint")}>
+            <Input id="salary_max" name="salary_max" type="number" min={1} inputMode="numeric" defaultValue={job && job.salary_max !== job.salary_min ? job.salary_max : ""} />
           </Field>
           <Field label={t("payFrequency")} htmlFor="pay_frequency" required>
             <Select id="pay_frequency" name="pay_frequency" required defaultValue={job?.pay_frequency ?? "monthly"}>

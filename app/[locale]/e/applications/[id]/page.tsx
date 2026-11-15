@@ -1,3 +1,4 @@
+import { MessageCircle, Phone } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -12,7 +13,7 @@ import { WorkerSummary } from "@/components/worker-summary";
 import { ActionButton } from "@/components/action-button";
 import { HireForm, InterviewForm, NoteForm, StatusButtons } from "@/components/forms/pipeline-forms";
 import { ReportForm } from "@/components/report-form";
-import { Badge, Card, SectionTitle } from "@/components/ui";
+import { Badge, Card, SectionTitle, buttonClass } from "@/components/ui";
 import { ReviewList } from "@/components/reviews";
 import { PipelineTracker } from "@/components/pipeline-tracker";
 import type { ReviewRow } from "@/lib/reviews";
@@ -65,6 +66,35 @@ export default async function ApplicantPage({ params }: PageProps<"/[locale]/e/a
       </div>
       <PipelineTracker status={app.status} />
 
+      {contacts ? (
+        <section className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border-2 border-ink bg-haldi p-4 shadow-hard sm:p-5">
+          <div className="min-w-0">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-widest">{t("contact")}</p>
+            {contacts.phone && <a href={`tel:${contacts.phone}`} className="block font-mono text-xl font-bold underline-offset-4 hover:underline">{contacts.phone}</a>}
+            {contacts.email && <a href={`mailto:${contacts.email}`} className="text-sm underline">{contacts.email}</a>}
+          </div>
+          {contacts.phone && (
+            <div className="flex flex-wrap gap-2">
+              <a href={`tel:${contacts.phone}`} className={buttonClass("primary")}><Phone className="size-4" aria-hidden /> {t("call")}</a>
+              {contacts.whatsapp_opt_in && (
+                <a
+                  href={`https://wa.me/${contacts.phone.replace(/^\+/, "").replace(/^(\d{10})$/, "91$1")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonClass("secondary")}
+                >
+                  <MessageCircle className="size-4" aria-hidden /> {t("whatsapp")}
+                </a>
+              )}
+            </div>
+          )}
+        </section>
+      ) : (
+        <p className="flex items-start gap-2 rounded-2xl border-2 border-dashed border-stone-300 bg-cream p-4 text-sm text-stone-700">
+          <Phone className="mt-0.5 size-4 shrink-0" aria-hidden /> {t("shortlistToContact")}
+        </p>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           {profile ? (
@@ -95,26 +125,6 @@ export default async function ApplicantPage({ params }: PageProps<"/[locale]/e/a
         </div>
 
         <aside className="space-y-4">
-          <Card className={contacts ? "space-y-2 border-2 border-ink bg-haldi" : "space-y-2"}>
-            <h2 className="font-display text-lg font-semibold">{t("contact")}</h2>
-            {contacts ? (
-              <div className="space-y-1 text-sm">
-                {contacts.phone && (
-                  <p>
-                    <a href={`tel:${contacts.phone}`} className="font-mono text-base font-bold text-ink underline">{contacts.phone}</a>
-                    {contacts.whatsapp_opt_in && (
-                      <a href={`https://wa.me/${contacts.phone.replace(/^\+/, "").replace(/^(\d{10})$/, "91$1")}`} target="_blank" rel="noopener noreferrer" className="ml-3 font-semibold text-green-800 underline">
-                        WhatsApp
-                      </a>
-                    )}
-                  </p>
-                )}
-                {contacts.email && <p><a href={`mailto:${contacts.email}`} className="underline">{contacts.email}</a></p>}
-              </div>
-            ) : (
-              <p className="text-sm text-stone-600">{t("contactHidden")}</p>
-            )}
-          </Card>
 
           {placement ? (
             <Card className="space-y-1 border-green-200 bg-green-50 text-sm">

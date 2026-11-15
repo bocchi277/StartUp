@@ -60,6 +60,17 @@ export default async function EmployerDashboard() {
         actions={<LinkButton href="/e/jobs/new"><PlusCircle className="size-4" aria-hidden /> {t("postJob")}</LinkButton>}
       />
 
+      {!jobs?.length && (
+        <section className="relative overflow-hidden rounded-3xl border-2 border-ink bg-orange-600 p-6 text-cream shadow-hard-lg sm:p-8">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-haldi">{t("firstJobEyebrow")}</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{t("firstJobTitle")}</h2>
+          <p className="mt-2 max-w-2xl text-orange-50">{t("firstJobText")}</p>
+          <LinkButton href="/e/jobs/new" variant="secondary" className="mt-5">
+            <PlusCircle className="size-4" aria-hidden /> {t("postFirstJob")}
+          </LinkButton>
+        </section>
+      )}
+
       {business.verification_level !== "business_verified" && (
         <div className="flex items-start gap-3 rounded-2xl border-2 border-blue-200 bg-blue-50 p-4 text-sm text-blue-800">
           <BadgeCheck className="mt-0.5 size-5 shrink-0" aria-hidden /> {t("verificationHint")}

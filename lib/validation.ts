@@ -143,7 +143,8 @@ export const jobSchema = z
     openings: int(1, 100),
     min_experience_months: int(0, 600),
     salary_min: int(1, 1_000_000),
-    salary_max: int(1, 1_000_000),
+    // Empty "up to" means a fixed salary: it is stored equal to salary_min.
+    salary_max: z.preprocess(emptyToUndefined, int(1, 1_000_000).optional()),
     pay_frequency: z.enum(PAY_FREQUENCIES),
     shift_start: time,
     shift_end: time,
@@ -160,6 +161,7 @@ export const jobSchema = z
     skill_ids: idArray,
     intent: z.enum(["draft", "publish"]),
   })
+  .transform((v) => ({ ...v, salary_max: v.salary_max ?? v.salary_min }))
   .refine((v) => v.salary_max >= v.salary_min, { path: ["salary_max"] });
 
 export const JOB_ARRAY_FIELDS = ["cuisine_ids", "skill_ids"];

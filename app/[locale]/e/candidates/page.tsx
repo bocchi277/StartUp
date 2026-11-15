@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { UsersRound } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Link, redirect } from "@/i18n/navigation";
 import { requireBusiness } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { getTaxonomy, localName, namesFor } from "@/lib/taxonomy";
@@ -19,8 +19,13 @@ export async function generateMetadata() {
 }
 
 export default async function CandidatesPage({ searchParams }: PageProps<"/[locale]/e/candidates">) {
-  await requireBusiness();
+  const { business } = await requireBusiness();
   const sp = await searchParams;
+  // First visit: show workers in the owner's own area. "Mahangapur, Lakhimpur Kheri" -> "Lakhimpur Kheri".
+  const homeCity = business.city.split(",").pop()!.trim();
+  if (Object.keys(sp).length === 0 && homeCity) {
+    return redirect({ href: { pathname: "/e/candidates", query: { city: homeCity } }, locale: await getLocale() });
+  }
   const f = parseJobFilters(sp);
   const page = getPage(sp);
   const locale = await getLocale();
@@ -50,6 +55,7 @@ export default async function CandidatesPage({ searchParams }: PageProps<"/[loca
   return (
     <div>
       <PageHeader eyebrow={t("eyebrow")} title={t("title")} subtitle={t("subtitle")} />
+      {f.city && f.city === homeCity && <p className="mb-3 text-sm text-stone-700">{t("nearbyNote", { city: homeCity })}</p>}
       <JobFilters
         action={`/${locale}/e/candidates`}
         roles={taxonomy.roles}

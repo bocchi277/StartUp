@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { ArrowRight, Mail, Search } from "lucide-react";
+import { ArrowRight, Camera, Mail, Search } from "lucide-react";
 import { Link, redirect } from "@/i18n/navigation";
 import { requireWorker } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -52,6 +52,16 @@ export default async function WorkerHome() {
 
   return (
     <div className="space-y-12">
+      {!profile.photo_url && (
+        <section className="flex flex-wrap items-center gap-4 rounded-2xl border-2 border-ink bg-yellow-100 p-4 shadow-hard">
+          <Camera className="size-6 shrink-0" aria-hidden />
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-lg font-semibold">{t("photoNudgeTitle")}</p>
+            <p className="text-sm text-stone-700">{t("photoNudgeText")}</p>
+          </div>
+          <LinkButton href="/w/profile">{t("photoNudgeCta")}</LinkButton>
+        </section>
+      )}
       <section className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
         <div className="relative overflow-hidden rounded-3xl border-2 border-ink bg-ink p-6 text-cream shadow-hard-lg sm:p-8">
           <div aria-hidden className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full border-[16px] border-orange-600/50" />

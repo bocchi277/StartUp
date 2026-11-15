@@ -244,7 +244,10 @@
     "checkHistory": "Past jobs",
     "checkSalary": "Expected salary",
     "invitesTitle": "Invitations",
-    "invitedBy": "{business} invited you"
+    "invitedBy": "{business} invited you",
+    "photoNudgeTitle": "Add your photo",
+    "photoNudgeText": "Owners told us they want to see who they are hiring. A clear face photo gets more shortlists.",
+    "photoNudgeCta": "Add photo"
   },
   "workerApplications": {
     "title": "My applications",
@@ -393,7 +396,10 @@
     "staleHint": "Not confirmed for 2 weeks. Tap \"Still hiring\" so workers know the job is real.",
     "applicantsLabel": "applicants",
     "latestApplicants": "New applicants",
-    "noNewApplicants": "No new applicants"
+    "noNewApplicants": "No new applicants",
+    "firstJobEyebrow": "Step 1",
+    "firstJobTitle": "Post your first job",
+    "firstJobText": "Pick the role, write the salary and terms, and publish. Workers nearby see it straight away, and you can send it to your WhatsApp groups."
   },
   "jobForm": {
     "newTitle": "Post a job",
@@ -435,7 +441,11 @@
     "sectionLocation": "Job location",
     "publish": "Publish job",
     "saveDraft": "Save as draft",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "salaryMaxHint": "Leave empty if the salary is fixed.",
+    "hindiTipTitle": "Your staff read Hindi?",
+    "hindiTipText": "Write the job in Hindi. Workers see it exactly as you write it.",
+    "hindiTipLink": "Write this job in Hindi"
   },
   "employerJob": {
     "lastConfirmed": "Confirmed {days, plural, =0 {today} =1 {1 day ago} other {# days ago}}",
@@ -474,7 +484,10 @@
     "notes": "Private notes",
     "notesPrivate": "Only your business can see these.",
     "delete": "Delete",
-    "confirmDeleteNote": "Delete this note?"
+    "confirmDeleteNote": "Delete this note?",
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "shortlistToContact": "Shortlist this applicant below to see their phone number and call or WhatsApp them."
   },
   "pipeline": {
     "moveTo": {
@@ -513,7 +526,8 @@
     "appliedToYou": "This worker applied to your jobs:",
     "contactAfterApply": "To contact this worker, share your job link with them. Contact details unlock once they apply and you shortlist them.",
     "workHistory": "Work history",
-    "eyebrow": "Talent"
+    "eyebrow": "Talent",
+    "nearbyNote": "Showing workers in {city}. Clear the city and search to see all areas."
   },
   "workerSummary": {
     "unnamed": "Unnamed",

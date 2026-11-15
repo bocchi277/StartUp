@@ -153,7 +153,7 @@ test.describe.serial("MVP demo script", () => {
 
     await owner.locator('a[href*="/e/jobs/"]', { hasText: "Tandoor chef for evening shift" }).first().click();
     await owner.getByRole("link", { name: /Ravi Kumar/ }).click();
-    await expect(owner.getByText("Shortlist this applicant to see their phone number and email.")).toBeVisible();
+    await expect(owner.getByText("Shortlist this applicant below to see their phone number and call or WhatsApp them.")).toBeVisible();
     await expect(owner.getByText("Sharma Dhaba")).toBeVisible();
     await expect(owner.getByText("Self-reported", { exact: true })).toBeVisible();
 
@@ -163,6 +163,7 @@ test.describe.serial("MVP demo script", () => {
 
     await owner.getByRole("button", { name: "Shortlist" }).click();
     await expect(owner.getByRole("link", { name: "9123456789" })).toBeVisible();
+    await expect(owner.getByRole("link", { name: "Call" })).toHaveAttribute("href", "tel:9123456789");
 
     await owner.getByLabel("Date and time (IST)").fill("2026-11-02T16:00");
     await owner.getByLabel("Instructions").fill("Ask for Nishant at the counter");
